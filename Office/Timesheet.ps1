@@ -41,6 +41,22 @@ $MyDate = (Get-date).ToShortDateString().Replace("/", "_")
 $Filename = $MyDate + "_" + "timesheet.csv"	
 $TSPath = Join-Path (Split-Path $profile) "$Filename"
 
+<# Getting error following (even if the script wprks great):
+>> Running (Timesheet.ps1) Script...
+>> Platform: V5 64Bit (STA)
+ERROR: Split-Path : Cannot bind argument to parameter 'Path' because it is null.
+Timesheet.ps1 (28, 33): ERROR: At Line: 28 char: 33
+ERROR: + $TSPath = Join-Path (Split-Path $profile) "$Filename"
+ERROR: +                                 ~~~~~~~~
+ERROR:     + CategoryInfo          : InvalidData: (:) [Split-Path], ParameterBindingValidationException
+ERROR:     + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Microsoft.PowerShell.Commands.SplitPathCommand
+ERROR:
+from : http://stackoverflow.com/questions/18742354/myinvocation-mycommand-path-returning-null > i.e. error can be fully ignored
+$profile is an automatic variable populated at script run time, then if you execute $profile in a powershell console or ISE isn't populated;
+	that's why in your test the $TSPath has no value ($null)
+Get-Help about_Automatic_Variables | more
+#>
+
 class TSEntry {
 	#region properties
 	[string]$Name
