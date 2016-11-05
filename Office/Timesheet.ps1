@@ -97,5 +97,5 @@ function New-TSReport
 while ($true)
 {
 	New-TSEntry
-	Start-Sleep -Seconds 1200 	# prompts every 20 min
+	Start-Sleep -Seconds 3600 	# prompts every hours
 }
