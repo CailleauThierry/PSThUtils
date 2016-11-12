@@ -10,7 +10,7 @@
 	.DESCRIPTION
 		This is a simple .csv timesheet generation. Set to ask for time every 20 min since last time an entry was added
 	.NOTES
-		- TimedTask.ps1 based on Timesheet.ps1 but you record beginning and end time and launch a script for each tasks
+		- TimedTask.ps1 based on Timesheet.ps1 but you record beginning and end time. This is meant to be uses as launching a script for each tasks
 		- This version adds date-stamp to the generated .csv file
 		- This version removes Type information in the generated .csv file (-NoTypeInformation)
 		- This version add a start menu shortcut launch "Timesheet.ps1 - Shortcut" to place in either following directories:
@@ -43,7 +43,7 @@ $Start_Time = (Get-Date)
 $MyDate = (Get-Date).ToShortDateString().Replace("/", "_")
 
 # Adding date to filename
-$Filename = $MyDate + "_" + "timesheet.csv"	
+$Filename = $MyDate + "_" + "timesheet.csv"
 $TSPath = Join-Path (Split-Path $profile) "$Filename"
 
 class TSEntry {
@@ -55,7 +55,7 @@ class TSEntry {
 	#endregion
 	
 	#region constructors
-	TSEntry([string]$Name, [datetime]$StartTime , [datetime]$EndTime, [string]$Activity)
+	TSEntry([string]$Name, [datetime]$StartTime, [datetime]$EndTime, [string]$Activity)
 	{
 		$this.Name = $Name
 		$this.StartTime = $StartTime
@@ -83,9 +83,5 @@ function New-TSEntry
 	
 	$result | Export-Csv -Path $TSPath -NoTypeInformation -Append
 }
-
-while ($true)
-{
+	# launch the class function creating a new csv and an entry to it
 	New-TSEntry
-	Start-Sleep -Seconds 3600 	# prompts every hours
-}
