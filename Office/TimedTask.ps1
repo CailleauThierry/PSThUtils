@@ -1,15 +1,16 @@
 ﻿<#
 	.NOTES
 	===========================================================================
-	 Created on:   	Tuesday October 25, 2016
+	 Created on:   	Thursday November 10, 2016
 	 Created by:   	CailleauThierry
 	 Organization: 	Private
-	 Filename:		Timesheet.ps1
+	 Filename:		TimedTask.ps1
 	 Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
 	===========================================================================
 	.DESCRIPTION
 		This is a simple .csv timesheet generation. Set to ask for time every 20 min since last time an entry was added
 	.NOTES
+		- TimedTask.ps1 based on Timesheet.ps1 but you record beginning and end time and launch a script for each tasks
 		- This version adds date-stamp to the generated .csv file
 		- This version removes Type information in the generated .csv file (-NoTypeInformation)
 		- This version add a start menu shortcut launch "Timesheet.ps1 - Shortcut" to place in either following directories:
@@ -35,8 +36,12 @@
 		- no need to check if timesheet already existing as it is date-tagged
 		- need to add the next day as another column (manipulating object with import-csv?)
 #>
+#Time the script is launched at
+$Start_Time = (Get-Date)
+
 # Format today's date in the way that can be appended to a file name
-$MyDate = (Get-date).ToShortDateString().Replace("/", "_")
+$MyDate = (Get-Date).ToShortDateString().Replace("/", "_")
+
 # Adding date to filename
 $Filename = $MyDate + "_" + "timesheet.csv"	
 $TSPath = Join-Path (Split-Path $profile) "$Filename"
@@ -44,15 +49,17 @@ $TSPath = Join-Path (Split-Path $profile) "$Filename"
 class TSEntry {
 	#region properties
 	[string]$Name
-	[datetime]$Time
+	[datetime]$StartTime
+	[datetime]$EndTime
 	[string]$Activity
 	#endregion
 	
 	#region constructors
-	TSEntry([string]$Name, [datetime]$Time, [string]$Activity)
+	TSEntry([string]$Name, [datetime]$StartTime , [datetime]$EndTime, [string]$Activity)
 	{
 		$this.Name = $Name
-		$this.Time = $Time
+		$this.StartTime = $StartTime
+		$this.EndTime = $EndTime
 		$this.Activity = $Activity
 	}
 	#endregion
@@ -72,30 +79,13 @@ function New-TSEntry
 	
 	$entry = [Microsoft.VisualBasic.Interaction]::InputBox($TSPrompt, $TSTitle, $TSDefault)
 	
-	$result = [TSEntry]::new($env:USERNAME, (Get-Date), $entry)
+	$result = [TSEntry]::new($env:USERNAME, $Start_Time, (Get-Date), $entry)
 	
 	$result | Export-Csv -Path $TSPath -NoTypeInformation -Append
-}
-
-function New-TSReport
-{
-	$reportDate = (get-date).AddDays(-7)
-	$timesheet = Import-Csv -Path $TSPath
-	
-	foreach ($entry in $timesheet)
-	{
-		$time = Get-Date $entry.Time
-		
-		if ($time -ge $reportDate)
-		{
-			$entry = [TSEntry]::new($entry.name, $time, $entry.Activity)
-			$entry
-		}
-	}
 }
 
 while ($true)
 {
 	New-TSEntry
-	Start-Sleep -Seconds 3600 	# prompts every so many seconds
+	Start-Sleep -Seconds 3600 	# prompts every hours
 }
