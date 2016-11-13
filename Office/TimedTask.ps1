@@ -92,63 +92,6 @@ function New-TSEntry
 	
 	$result = [TSEntry]::new((Get-Date), $CalculatedTaskDuration, $DefaultCategory, $TicketNumber, $entry)
 	
-<#	>> ((Get-Date) - ($Start_Time)) | gm
-	
-	
-	TypeName: System.TimeSpan
-	
-	Name              MemberType Definition
-	---- ---------- ----------
-	Add               Method     timespan Add(timespan ts)
-	CompareTo         Method     int CompareTo(System.Object value), int CompareTo(timespan value), int IComparable.CompareTo(System.Object obj), int IComparabl...
-	Duration          Method     timespan Duration()
-	Equals            Method     bool Equals(System.Object value), bool Equals(timespan obj), bool IEquatable[timespan].Equals(timespan other)
-	GetHashCode       Method     int GetHashCode()
-	GetType           Method     type GetType()
-	Negate            Method     timespan Negate()
-	Subtract          Method     timespan Subtract(timespan ts)
-	ToString          Method     string ToString(), string ToString(string format), string ToString(string format, System.IFormatProvider formatProvider), strin...
-	Days              Property   int Days { get; }
-	Hours             Property   int Hours { get; }
-	Milliseconds      Property   int Milliseconds { get; }
-	Minutes           Property   int Minutes { get; }
-	Seconds           Property   int Seconds { get; }
-	Ticks             Property   long Ticks { get; }
-	TotalDays         Property   double TotalDays { get; }
-	TotalHours        Property   double TotalHours { get; }
-	TotalMilliseconds Property   double TotalMilliseconds { get; }
-	TotalMinutes      Property   double TotalMinutes { get; }
-	TotalSeconds      Property   double TotalSeconds { get; }#>
-	
-<#	>> ((Get-Date) - ($Start_Time)).TotalMinutes | gm
-	
-	
-	TypeName: System.Double
-	
-	Name        MemberType Definition
-	---- ---------- ----------
-	CompareTo   Method     int CompareTo(System.Object value), int CompareTo(double value), int IComparable.CompareTo(System.Object obj), int IComparable[double...
-	Equals      Method     bool Equals(System.Object obj), bool Equals(double obj), bool IEquatable[double].Equals(double other)
-	GetHashCode Method     int GetHashCode()
-	GetType     Method     type GetType()
-	GetTypeCode Method     System.TypeCode GetTypeCode(), System.TypeCode IConvertible.GetTypeCode()
-	ToBoolean   Method     bool IConvertible.ToBoolean(System.IFormatProvider provider)
-	ToByte      Method     byte IConvertible.ToByte(System.IFormatProvider provider)
-	ToChar      Method     char IConvertible.ToChar(System.IFormatProvider provider)
-	ToDateTime  Method     datetime IConvertible.ToDateTime(System.IFormatProvider provider)
-	ToDecimal   Method     decimal IConvertible.ToDecimal(System.IFormatProvider provider)
-	ToDouble    Method     double IConvertible.ToDouble(System.IFormatProvider provider)
-	ToInt16     Method     int16 IConvertible.ToInt16(System.IFormatProvider provider)
-	ToInt32     Method     int IConvertible.ToInt32(System.IFormatProvider provider)
-	ToInt64     Method     long IConvertible.ToInt64(System.IFormatProvider provider)
-	ToSByte     Method     sbyte IConvertible.ToSByte(System.IFormatProvider provider)
-	ToSingle    Method     float IConvertible.ToSingle(System.IFormatProvider provider)
-	ToString    Method     string ToString(), string ToString(string format), string ToString(System.IFormatProvider provider), string ToString(string format, S...
-		ToType      Method     System.Object IConvertible.ToType(type conversionType, System.IFormatProvider provider)
-		ToUInt16    Method     uint16 IConvertible.ToUInt16(System.IFormatProvider provider)
-		ToUInt32    Method     uint32 IConvertible.ToUInt32(System.IFormatProvider provider)
-		ToUInt64    Method     uint64 IConvertible.ToUInt64(System.IFormatProvider provider)#>
-	
 	# Creates a csv file with the Properties as header paramaters by default. If file already exist Export-Csv already only appends a new line / raw
 	# Note: if the .csv is open in Excel, the entry will not be added (there might be an Excel option to allow for .csv to be overwritten, but better not open Excel until the end of the day)
 	$result | Export-Csv -Path $TSPath -NoTypeInformation -Append
