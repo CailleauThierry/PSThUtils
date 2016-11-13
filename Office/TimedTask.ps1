@@ -48,18 +48,20 @@ $TSPath = Join-Path (Split-Path $profile) "$Filename"
 
 class TSEntry {
 	#region properties
-	[string]$Name
-	[datetime]$StartTime
-	[datetime]$EndTime
+	[datetime]$DateTime
+	[double]$Duration
+	[string]$Category
+	[string]$Ticket
 	[string]$Activity
 	#endregion
 	
 	#region constructors
-	TSEntry([string]$Name, [datetime]$StartTime, [datetime]$EndTime, [string]$Activity)
+	TSEntry([datetime]$DateTime, [double]$Duration, [string]$Category, [string]$Ticket, [string]$Activity)
 	{
-		$this.Name = $Name
-		$this.StartTime = $StartTime
-		$this.EndTime = $EndTime
+		$this.DateTime = $DateTime
+		$this.Duration = $Duration
+		$this.Category = $Category
+		$this.Ticket = $Ticket
 		$this.Activity = $Activity
 	}
 	#endregion
@@ -78,9 +80,16 @@ function New-TSEntry
 	$TSDefault = ''
 	
 	$entry = [Microsoft.VisualBasic.Interaction]::InputBox($TSPrompt, $TSTitle, $TSDefault)
+	$TicketNumber = "N/A"
+	$DefaultCategory = "L3 Mentee Review"
+	#Find if the typed entry contains a ticket number (7 or 8 digits, 7 if you miss to trype the leading 0)
+	$entry -match '(?<ticket>(\d{7,8}))'
+	if ($Matches){
+		$TicketNumber = $Matches.ticket
+	}
+	$result = [TSEntry]::new((Get-Date), (((Get-Date) - ($Start_Time)).TotalMinutes), $DefaultCategory, $TicketNumber, $entry)
 	
-	$result = [TSEntry]::new($env:USERNAME, $Start_Time, (Get-Date), $entry)
-	
+	# Creates a csv file with the Properties as header paramaters by default. If file already exist Export-Csv already only appends a new line / raw
 	$result | Export-Csv -Path $TSPath -NoTypeInformation -Append
 }
 	# launch the class function creating a new csv and an entry to it
