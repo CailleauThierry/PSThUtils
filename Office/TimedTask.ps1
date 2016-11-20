@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		    TimedTask.ps1
-    Version:        1.1.2.0
+    Version:        1.1.2.3
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,7 +17,8 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
-    - TimedTask.ps1 version 1.1.2.0 autoupdates Category + TimedTask.exe (pinnable to taskbar)
+    - script now counts more than 60 min in version 1.1.2.3
+    - TimedTask.ps1 version 1.1.2.1 autoupdates Category + TimedTask.exe (pinnable to taskbar)
     - TimedTask.ps1 based on Timesheet.ps1 but records beginning and end time instead. This is meant to be uses as launching a script for each tasks.
     - This version adds date-stamp to the generated .csv file
     - This version removes Type information in the generated .csv file (-NoTypeInformation)
@@ -26,7 +27,7 @@
     - no need to check if timesheet already existing as it is date-tagged
        Ideas for improvement:
     - need to bring windows to front when the script starts (and still be able to fade to background...)
-	- need to cumulate minutes when task rund for more than 60 min
+	  
 #>
 
 #Requires -Version 5
@@ -91,7 +92,7 @@ function New-TSEntry
   $Log | Add-Member NoteProperty Administration "$null"
   $Log | Add-Member NoteProperty Break "$null"
   $Log | Add-Member NoteProperty Chat "$null"
-  $Log | Add-Member NoteProperty Developement "$null"
+  $Log | Add-Member NoteProperty Development "$null"
   $Log | Add-Member NoteProperty DTS "$null"
   $Log | Add-Member NoteProperty Escalation "$null"
   $Log | Add-Member NoteProperty G2A "$null"
@@ -107,7 +108,7 @@ function New-TSEntry
   $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
   $A1 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
   $A2 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
-  $A3 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Developement' } # 
+  $A3 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
   $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed))"; key1 = 'L3 Mentee Review' } # 
   $A6 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
@@ -156,7 +157,7 @@ function New-TSEntry
   }
 	
   # Calculate the duration of the task and returns in a mmmm.ss format (minutes . seconds format)
-  [string]$CalculatedTaskDuration = "$(((Get-Date) - ($Start_Time)).Minutes)" + '.' + "$(((Get-Date) - ($Start_Time)).Seconds)"
+  [string]$CalculatedTaskDuration = "{0:n2}" -f ((Get-Date) - ($Start_Time)).TotalMinutes
 	
   $result = [TSEntry]::new((Get-Date), $CalculatedTaskDuration, $DefaultCategory, $TicketNumber, $entry)
 	
