@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		    TimedTask.ps1
-    Version:        1.1.2.3
+    Version:        1.1.2.4
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,7 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+    - version 1.1.2.4, added a search keword and some formatting
     - script now counts more than 60 min in version 1.1.2.3
     - TimedTask.ps1 version 1.1.2.1 autoupdates Category + TimedTask.exe (pinnable to taskbar)
     - TimedTask.ps1 based on Timesheet.ps1 but records beginning and end time instead. This is meant to be uses as launching a script for each tasks.
@@ -110,9 +111,9 @@ function New-TSEntry
   $A2 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
   $A3 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
-  $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed))"; key1 = 'L3 Mentee Review' } # 
+  $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed| PR))"; key1 = 'L3 Mentee Review' } # 
   $A6 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
-  $A7 = @{ key0 = '(?<RegExMatch>(DTS))'; key1 = 'DTS' } # 
+  $A7 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
   $A8 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley))'; key1 = 'Internal Request' } # 
   $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
   $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
@@ -157,7 +158,7 @@ function New-TSEntry
   }
 	
   # Calculate the duration of the task and returns in a mmmm.ss format (minutes . seconds format)
-  [string]$CalculatedTaskDuration = "{0:n2}" -f ((Get-Date) - ($Start_Time)).TotalMinutes
+  [string]$CalculatedTaskDuration = '{0:n2}' -f ((Get-Date) - ($Start_Time)).TotalMinutes
 	
   $result = [TSEntry]::new((Get-Date), $CalculatedTaskDuration, $DefaultCategory, $TicketNumber, $entry)
 	
