@@ -111,12 +111,12 @@ function New-TSEntry
   $A2 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
   $A3 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
-  $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed| PR))"; key1 = 'L3 Mentee Review' } # 
+  $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
   $A6 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
   $A7 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
-  $A8 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley))'; key1 = 'Internal Request' } # 
-  $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
-  $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
+  $A8 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
+  $A9 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
+  $A10 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
   $A11 = @{ key0 = '(?<RegExMatch>(queue|articles))'; key1 = 'Queue' } # 
   $A12 = @{ key0 = '(?<RegExMatch>(meeting))'; key1 = 'Supervising' } # 
   $A13 = @{ key0 = '(?<RegExMatch>(escalation))'; key1 = 'Escalation' } # Highest priority Category
