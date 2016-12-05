@@ -110,8 +110,8 @@ function New-TSEntry
   $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
   $A1 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
   $A2 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
-  $A3 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
-  $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
+  $A3 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
+  $A4 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A5 = @{ key0 = "(?<RegExMatch>(Skott|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
   $A6 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
   $A7 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
