@@ -28,6 +28,7 @@
     - no need to check if timesheet already existing as it is date-tagged
        Ideas for improvement:
     - need to bring windows to front when the script starts (and still be able to fade to background...)
+	- need to have multiple ticket # fitering
 	  
 #>
 
