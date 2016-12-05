@@ -30,6 +30,6 @@ You can launch the script from anywhere as long as you adjust the path in "Timed
 2. A PowerShell console will open and then a Windows Form Pop-up will appear > this is what we will use
 3. Enter the text in the form and do either:
   * OK > this will close the form and add that text to the .csv file (it will also create that file the first time)
-  * Leave the Form open and only click "OK" when the task is completed. This will update the "Duration" column od the .csv file with that time-span
+  * Leave the Form open and only click "OK" when the task is completed. This will update the "Duration" column of the .csv file with that time-span
 
 - Note: Do not have Excel open that .csv if you want the script to be able to add another entry to it. Excel "locks" access to that .csv file...
