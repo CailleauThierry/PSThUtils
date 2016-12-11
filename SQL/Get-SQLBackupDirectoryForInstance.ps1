@@ -1,6 +1,6 @@
 ﻿<#
 	.SYNOPSIS
-		A brief description of the Get-BackupDirectoryForInstance.ps1 file.
+		A brief description of the Get-SQLBackupDirectoryForInstance.ps1 file.
 
 	.DESCRIPTION
 		This extract the Backup Directory folder for the instance you give it
@@ -12,14 +12,14 @@
 		The description of a the Host parameter.
 
 	.EXAMPLE
-		PS C:\> $res = Get-BackupDirectoryForInstance -InstanceName Instance1
+		PS C:\> $res = Get-SQLBackupDirectoryForInstance -InstanceName Instance1
 		PS C:\> Write-Output "$res"
 		C:\Program Files\Microsoft SQL Server\MSSQL11.INSTANCE1\MSSQL\Backup
 		This example shows how to call a function with the mandatory SQL Instance Name only.
 		Verbose is supported for script debugging
 
 	.EXAMPLE
-		PS C:\> $res = Get-BackupDirectoryForInstance -InstanceName Instance1 -Host_Name Clone1
+		PS C:\> $res = Get-SQLBackupDirectoryForInstance -InstanceName Instance1 -Host_Name Clone1
 		PS C:\> Write-Output "$res"
 		C:\Program Files\Microsoft SQL Server\MSSQL11.INSTANCE1\MSSQL\Backup
 		This example shows how to call a function with the mandatory SQL Instance Name and Server Host Name.
@@ -41,7 +41,7 @@
 		Created on:   	11/14/2016 10:54 AM
 		Created by:   	CailleauThierry
 		Organization: 	Private
-		Filename:     	Get-BackupDirectoryForInstance.ps1
+		Filename:     	Get-SQLBackupDirectoryForInstance.ps1
 		===========================================================================
 
 	.NOTES
@@ -58,7 +58,7 @@
 	.LINK
 		about_functions_advanced_methods
 #>
-function Get-BackupDirectoryForInstance{
+function Get-SQLBackupDirectoryForInstance{
 	[CmdletBinding()]
 	param(
 		[Parameter(Position=0, Mandatory=$true)]
@@ -77,7 +77,7 @@ function Get-BackupDirectoryForInstance{
 			if ($Host_Name = 'YourHostName')
 			{
 				$Host_Name = $env:computername
-				Write-Verbose "The script took the local hostname from  command hostname"
+				Write-Verbose "The script took the local hostname from `$env:computername"
 			}
 			$sqlserver = $Host_Name + "\" + $InstanceName
 			#create a new server object
@@ -92,5 +92,13 @@ function Get-BackupDirectoryForInstance{
 	}
 }
 
-$res = Get-BackupDirectoryForInstance -InstanceName Instance1 -Verbose
+$res = Get-SQLBackupDirectoryForInstance -InstanceName Instance1 -Verbose
 Write-Output "$res"
+
+<#>> Running (Get-SQLBackupDirectoryForInstance.ps1) Script...
+>> Platform: V3 64Bit (STA)
+VERBOSE: The script took the local hostname from $env:computername
+C:\Program Files\Microsoft SQL Server\MSSQL11.INSTANCE1\MSSQL\Backup
+
+>> Execution time: < 1 second
+>> Script Ended#>
