@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		    TimedTask.ps1
-    Version:        1.1.2.5
+    Version:        1.1.2.6
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,7 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+	  - version 1.1.2.6 creates a $profile/TimedTask_Logs folder to collect the files in that separate folder
     - version 1.1.2.5, small filtering changes same great functionnality
     - version 1.1.2.4, added a search keyword and some formatting
     - script now counts more than 60 min in version 1.1.2.3
@@ -42,8 +43,8 @@ $Start_Time = (Get-Date)
 $MyDate = (Get-Date).ToShortDateString().Replace('/', '_')
 
 # Adding date to filename
-$Filename = $MyDate + '_' + 'timesheet.csv'
-$TSPath = Join-Path (Split-Path $profile) "$Filename"
+$Filename = '\TimedTask_Logs\' + $MyDate + '_' + 'timesheet.csv'
+$TSPath = (Split-Path $profile) + "$Filename"
 
 class TSEntry {
   #region properties
