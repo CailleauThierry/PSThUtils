@@ -18,7 +18,7 @@ You can set your execution policies to Unrestricted or Bypass:
 1.	In a PowerShell prompt launch with "Run As Administrator" priviledges
 2.	Set-ExecutionPolicy -ExecutionPolicy Bypass  # say yes
 
-The auto-generated .csv file will be in the $profile directory (just type “$profile” in PowerShell to find out where that is)
+The auto-generated .csv file will be in the $profile\TimedTask_Logs directory it creates (just type “$profile” in PowerShell to find out where that is)
 
 To launch the script, launch your edited version of "TimedTask.bat".
 
