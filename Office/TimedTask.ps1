@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		    TimedTask.ps1
-    Version:        1.1.2.6
+    Version:        1.1.2.7
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,7 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+	- version 1.1.2.7 Adding detection for "IT" keyword
 	- prvious idea for improvement "bring windows to front when the script starts (and still be able to fade to background...)" > not needed anymore, it work fine natively
 	- version 1.1.2.6 creates a $profile/TimedTask_Logs folder to collect the files in that separate folder
     - version 1.1.2.5, small filtering changes same great functionnality
@@ -108,22 +109,24 @@ function New-TSEntry
   $Log | Add-Member NoteProperty Queue "$null"
   $Log | Add-Member NoteProperty Supervising "$null"
   $Log | Add-Member NoteProperty Training "$null"
+  $Log | Add-Member NoteProperty IT "$null"
 	
   # key0 uses RegEx Expression Matching for key0 identifier. key1 is the PSObject Property Name. The order $A0 to $Axx also sets a priority list. Last in the list has priority for selecting the Category
   $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
-  $A1 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
-  $A2 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
-  $A3 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
-  $A4 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
-  $A5 = @{ key0 = "(?<RegExMatch>(Skott|Bill|Stephan|Ivo|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
-  $A6 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
-  $A7 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
-  $A8 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
-  $A9 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
-  $A10 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
-  $A11 = @{ key0 = '(?<RegExMatch>(queue|articles))'; key1 = 'Queue' } # 
-  $A12 = @{ key0 = '(?<RegExMatch>(meeting))'; key1 = 'Supervising' } # 
-  $A13 = @{ key0 = '(?<RegExMatch>(escalation))'; key1 = 'Escalation' } # Highest priority Category
+  $A1 = @{ key0 = "(?<RegExMatch>(\sIT\s))"; key1 = 'IT' } # 
+  $A2 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
+  $A3 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
+  $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
+  $A5 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
+  $A6 = @{ key0 = "(?<RegExMatch>(Skott|Bill|Stephan|Ivo|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
+  $A7 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
+  $A8 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
+  $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
+  $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
+  $A11 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
+  $A12 = @{ key0 = '(?<RegExMatch>(queue|articles))'; key1 = 'Queue' } # 
+  $A13 = @{ key0 = '(?<RegExMatch>(meeting))'; key1 = 'Supervising' } # 
+  $A14 = @{ key0 = '(?<RegExMatch>(escalation))'; key1 = 'Escalation' } # Highest priority Category
 	
 	
   #  $A14 = @{ key0 = '(?<RegExMatch>(\d{7,8}))'; key1 = 'TicketNumber' } # '(?<TicketNumber>(\d{7,8}))' matching format '01052582' or '1052582'
@@ -142,7 +145,8 @@ function New-TSEntry
     $A10,
     $A11,
     $A12,
-    $A13
+    $A13,
+	$A14
   )
 	
   for ($counter = 0; $counter -lt $Keys.Length; $counter++)
