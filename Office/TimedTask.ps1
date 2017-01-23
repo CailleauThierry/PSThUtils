@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		    TimedTask.ps1
-    Version:        1.1.2.7
+    Version:        1.1.2.8
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,7 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+  - version 1.1.2.8 removes the requirement for TimedTask_v1.1.2.8.exe to "RunAsAdministrator" which is not required and makes for a nicer user experience. This is the ISESteroids Advanced application option "Close console When Script Is done" only
 	- version 1.1.2.7 Adding detection for "IT" keyword
 	- prvious idea for improvement "bring windows to front when the script starts (and still be able to fade to background...)" > not needed anymore, it work fine natively
 	- version 1.1.2.6 creates a $profile/TimedTask_Logs folder to collect the files in that separate folder
@@ -113,7 +114,7 @@ function New-TSEntry
 	
   # key0 uses RegEx Expression Matching for key0 identifier. key1 is the PSObject Property Name. The order $A0 to $Axx also sets a priority list. Last in the list has priority for selecting the Category
   $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
-  $A1 = @{ key0 = "(?<RegExMatch>(\sIT\s))"; key1 = 'IT' } # 
+  $A1 = @{ key0 = '(?<RegExMatch>(\sIT\s))'; key1 = 'IT' } # 
   $A2 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
   $A3 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
   $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
