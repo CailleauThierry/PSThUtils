@@ -7,7 +7,7 @@ You can download the Time Tracking script by downloading the full repository fro
 
 https://github.com/CailleauThierry/PSThUtils > "Download ZIP"
 
-All you need are the following 2 files + WMF 5.0 installed (PowerShell 5) available from:
+All you need are the following 2 files + WMF 5.0 installed (PowerShell 5, already installed by default in Windows 10 and Server 2016) available from:
 
 - https://www.microsoft.com/en-us/download/details.aspx?id=50395
 - TimedTask.bat
@@ -16,7 +16,7 @@ All you need are the following 2 files + WMF 5.0 installed (PowerShell 5) availa
 You can set your execution policies to Unrestricted or Bypass:
 
 1.	In a PowerShell prompt launch with "Run As Administrator" priviledges
-2.	Set-ExecutionPolicy -ExecutionPolicy Bypass  # say yes
+2.	Set-ExecutionPolicy -ExecutionPolicy Bypass  # say yes 
 
 The auto-generated .csv file will be in the $profile\TimedTask_Logs directory it creates (just type “$profile” in PowerShell to find out where that is)
 
