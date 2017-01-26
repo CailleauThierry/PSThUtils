@@ -4,22 +4,22 @@
     Created on:   	Sunday November 20, 2016
     Created by:   	CailleauThierry
     Organization: 	Private
-    Filename:		    TimedTask.ps1
+    Filename:		TimedTask.ps1
     Version:        1.1.2.8
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
-    This is a simple .csv timesheet generation. Unlike Timesheet.ps1 it does not ask what you are doing every 20 min.
-	It record the beginning (whne script is launch) to end (when you select OK after entering the text) and calculate the duration between both in min
-    You are meant to launch TimedTask.bat every time you want to make an entry to today's sheet 
+    This is a simple .csv timesheet generation.
+	It record the beginning (when the script is launched) to end (when you select OK after entering the text) and calculate the duration between both in min
+    You are meant to launch TimedTask.bat or TimedTask_vx.x.x.x.exe every time you want to make an entry to today's sheet 
     .EXAMPLE
-    - Launch TimedTask.bat every time you want to record the time taken to perform a task. Only press "Enter" / "OK" once the task is complete.
+    - Launch TimedTask.bat or TimedTask_vx.x.x.x.exe every time you want to record the time taken to perform a task. You can have multiple windows launched at the same time. Only press "Enter" / "OK" once the task is complete.
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
-  - version 1.1.2.8 removes the requirement for TimedTask_v1.1.2.8.exe to "RunAsAdministrator" which is not required and makes for a nicer user experience. This is the ISESteroids Advanced application option "Close console When Script Is done" only
+    - version 1.1.2.8 removes the requirement for TimedTask_v1.1.2.8.exe to "RunAsAdministrator" which is not required and makes for a nicer user experience. This is the ISESteroids Advanced application option "Close Console When Script Is done" only
 	- version 1.1.2.7 Adding detection for "IT" keyword
-	- prvious idea for improvement "bring windows to front when the script starts (and still be able to fade to background...)" > not needed anymore, it work fine natively
+	- previous idea for improvement "bring windows to front when the script starts (and still be able to fade to background...)" > not needed anymore, it work fine natively
 	- version 1.1.2.6 creates a $profile/TimedTask_Logs folder to collect the files in that separate folder
     - version 1.1.2.5, small filtering changes same great functionnality
     - version 1.1.2.4, added a search keyword and some formatting
