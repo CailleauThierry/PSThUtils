@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		TimedTask.ps1
-    Version:        1.1.2.8
+    Version:        1.1.2.9
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,8 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+    - version 1.1.2.9 investigated a "field does not get written to file" issue with windows 10. I reproduce the same issue with wndows 10 seelp mode but only when the .csv was still opened in Excel
+    Also created a path-check for the script to save to csv when the "\TimedTask_Logs" folder does not exist already
     - version 1.1.2.8 removes the requirement for TimedTask_v1.1.2.8.exe to "RunAsAdministrator" which is not required and makes for a nicer user experience. This is the ISESteroids Advanced application option "Close Console When Script Is done" only
 	- version 1.1.2.7 Adding detection for "IT" keyword
 	- previous idea for improvement "bring windows to front when the script starts (and still be able to fade to background...)" > not needed anymore, it work fine natively
@@ -47,8 +49,16 @@ $Start_Time = (Get-Date)
 $MyDate = (Get-Date).ToShortDateString().Replace('/', '_')
 
 # Adding date to filename
-$Filename = '\TimedTask_Logs\' + $MyDate + '_' + 'timesheet.csv'
-$TSPath = (Split-Path $profile) + "$Filename"
+
+$LogFolder = (Split-Path $profile) + '\TimedTask_Logs'
+
+
+if (-not (Test-Path $LogFolder)) { # Test if $LogFolder path exist. If not it creates that path
+$Silent = new-item -itemtype directory $LogFolder
+}
+
+$Filename = "$MyDate" + '_' + 'timesheet.csv'
+$TSPath = "$LogFolder" + '\' + "$Filename"
 
 class TSEntry {
   #region properties
