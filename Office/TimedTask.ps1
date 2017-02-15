@@ -139,7 +139,7 @@ function New-TSEntry
   $A8 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
   $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
   $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
-  $A11 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
+  $A11 = @{ key0 = '(?<RegExMatch>(Sathya|Igor|Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
   $A12 = @{ key0 = '(?<RegExMatch>(queue|articles))'; key1 = 'Queue' } # 
   $A13 = @{ key0 = '(?<RegExMatch>(meeting))'; key1 = 'Supervising' } # 
   $A14 = @{ key0 = '(?<RegExMatch>(escalation))'; key1 = 'Escalation' } # Highest priority Category
