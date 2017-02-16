@@ -5,7 +5,7 @@
     Created by:   	CailleauThierry
     Organization: 	Private
     Filename:		TimedTask.ps1
-    Version:        1.1.2.9
+    Version:        1.1.3.0
     Started from: 	https://github.com/Windos/powershell-depot/blob/master/General/Timesheet.ps1
     ===========================================================================
     .DESCRIPTION
@@ -17,6 +17,7 @@
     .EXAMPLE
 	- Pin TimedTask.exe to the Taskbar. Then if a TimedTask is already launched, just right click on it to launch a new one
 	.FUNCTIONALITY
+	- version 1.1.3.0 has improvement in the regex filters and exposes the filter rule in as an array to all those to become a csv configuration files later
     - version 1.1.2.9 investigated a "field does not get written to file" issue with windows 10. I reproduce the same issue with wndows 10 seelp mode but only when the .csv was still opened in Excel
     Also created a path-check for the script to save to csv when the "\TimedTask_Logs" folder does not exist already
     - version 1.1.2.8 removes the requirement for TimedTask_v1.1.2.8.exe to "RunAsAdministrator" which is not required and makes for a nicer user experience. This is the ISESteroids Advanced application option "Close Console When Script Is done" only
@@ -107,8 +108,18 @@ function New-TSEntry
     $TicketNumber = $Matches.ticket
   }
 	
+	$ar = @()
 	
-  $Log = New-Object PSObject	
+	# Note: there is a way for faster array manipulation using [System.Collections.ArrayList]$ar = @() and the ".Add()" method i.e. $null = $ar.Add($x)
+	Measure-Command {
+		for ($x = 1; $x -lt 10000; $x += 1) {
+			$ar += $x
+		}
+	}
+	
+	
+	
+	$Log = New-Object PSObject	
   #Log object definition also defines in what order the objects will be displayed at the end.
 
   $Log | Add-Member NoteProperty Administration "$null"
@@ -133,8 +144,40 @@ function New-TSEntry
 	$A1 = @{ key0 = "(?<RegExMatch>$rep)"; key1 = 'IT'}
 #>
 	
+<#	# This combination does not work for me, mainly becuase of the RegEx expression expansion
+	$hashCat = @{
+		Training = "(training)"
+	}
+	$A0 = @{
+		key0 = "(?<RegExMatch>$hashCat.("Training"))"; key1 = 'Training'
+	} # Lowest priority Category
+	# More about hashtables in https://blogs.technet.microsoft.com/heyscriptingguy/2011/07/05/automatically-create-a-powershell-hash-table/
+	
+	#>
+	
+<#	$Rgx = ("(training)",
+		"(?-i)(\sIT)",
+		"(break|lunch)",
+		"(Chat)",
+		"(appointment|signing|login|updated|building|timesheet|One-on-One)",
+		"(installed|editing|github|script|ps1)",
+		"(\sJP|Bill|Stephan|Ivo|PR'ed|\sPR\s)",
+		"(G2A)",
+		"(DTS|FRN)",
+		"(inbound|call)",
+		"(management)",
+		"(Sathya|Igor|Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa)",
+		"(queue|articles)",
+		"(meeting)",
+		"(escalation)"
+	)
+	#this array replacement is also not working for me... ...I may have to re-think this regex list as a function somehow...
+	
+	#>
+	
+	
   # key0 uses RegEx Expression Matching for key0 identifier. key1 is the PSObject Property Name. The order $A0 to $Axx also sets a priority list. Last in the list has priority for selecting the Category
-  $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
+  $A0 = @{ key0 = "(?<RegExMatch>(training))"; key1 = 'Training' } # Lowest priority Category
   $A1 = @{ key0 = '(?<RegExMatch>(?-i)(\sIT))'; key1 = 'IT' } # an additional (?-i) after the <group> definition i.e. <RegExMatch>(?-i) matches case sensitive overriding imatch which is case insensitive
   $A2 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
   $A3 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
