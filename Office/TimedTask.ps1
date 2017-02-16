@@ -127,9 +127,15 @@ function New-TSEntry
   $Log | Add-Member NoteProperty Training "$null"
   $Log | Add-Member NoteProperty IT "$null"
 	
+<#	
+	# This works too... ...on step closer to have the filters outside the script
+	$rep = '(?-i)(\sIT)'
+	$A1 = @{ key0 = "(?<RegExMatch>$rep)"; key1 = 'IT'}
+#>
+	
   # key0 uses RegEx Expression Matching for key0 identifier. key1 is the PSObject Property Name. The order $A0 to $Axx also sets a priority list. Last in the list has priority for selecting the Category
   $A0 = @{ key0 = '(?<RegExMatch>(training))'; key1 = 'Training' } # Lowest priority Category
-  $A1 = @{ key0 = '(?<RegExMatch>(\sIT\s))'; key1 = 'IT' } # 
+  $A1 = @{ key0 = '(?<RegExMatch>(?-i)(\sIT))'; key1 = 'IT' } # an additional (?-i) after the <group> definition i.e. <RegExMatch>(?-i) matches case sensitive overriding imatch which is case insensitive
   $A2 = @{ key0 = '(?<RegExMatch>(break|lunch))'; key1 = 'Break' } # 
   $A3 = @{ key0 = '(?<RegExMatch>(Chat))'; key1 = 'Chat' } # 
   $A4 = @{ key0 = '(?<RegExMatch>(appointment|signing|login|updated|building|timesheet|One-on-One))'; key1 = 'Administration' } # 
@@ -168,8 +174,8 @@ function New-TSEntry
   for ($counter = 0; $counter -lt $Keys.Length; $counter++)
   {
     # $Keys.Length > autoadjust if you add more identification keys
-    # $consume consumes the result of the pipe since we are not directly interested by the pipe result but its side product from the $matches automatic variable and if true or false match for the conditional if loop
-    $consume = $entry | Where-Object { $_ -imatch $Keys[$counter].key0 }
+		# $consume consumes the result of the pipe since we are not directly interested by the pipe result but its side product from the $matches automatic variable and if true or false match for the conditional if loop. 'imatch' Makes Regex searches case insensitive
+    $consume = $entry | Where-Object { $_ -cmatch $Keys[$counter].key0 }
 		
     # key2 Property (like AgentVersion, HostName, TaskName. This is the resulte of observer redundancies and size optimzation of the code
 		
