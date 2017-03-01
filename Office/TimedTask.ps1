@@ -55,7 +55,7 @@ $MyDate = (Get-Date).ToShortDateString().Replace('/', '_')
 
 # Adding date to filename
 
-$LogFolder = (Split-Path $profile) + '\TimedTask_Logs'
+$LogFolder = (Split-Path $profile) + '\' + 'TimedTask_Logs'
 
 
 if (-not (Test-Path $LogFolder)) { # Test if $LogFolder path exist. If not it creates that path
@@ -106,8 +106,9 @@ function New-TSEntry
   $entry -match '(?<ticket>(\d{7,8}))'
   if ($Matches){
     $TicketNumber = $Matches.ticket
-  }
+	}
 	
+<#	
 	$ar = @()
 	
 	# Note: there is a way for faster array manipulation using [System.Collections.ArrayList]$ar = @() and the ".Add()" method i.e. $null = $ar.Add($x)
@@ -116,7 +117,7 @@ function New-TSEntry
 			$ar += $x
 		}
 	}
-	
+	#>
 	
 	
 	$Log = New-Object PSObject	
@@ -185,10 +186,10 @@ function New-TSEntry
   $A5 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A6 = @{ key0 = "(?<RegExMatch>(\sJP|Bill|Stephan|Ivo|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
   $A7 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
-  $A8 = @{ key0 = '(?<RegExMatch>(DTS|FRN))'; key1 = 'DTS' } # 
+  $A8 = @{ key0 = '(?<RegExMatch>(Sathya|Igor|DTS|FRN))'; key1 = 'DTS' } # 
   $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
   $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
-  $A11 = @{ key0 = '(?<RegExMatch>(Sathya|Igor|Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
+  $A11 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
   $A12 = @{ key0 = '(?<RegExMatch>(queue|articles))'; key1 = 'Queue' } # 
   $A13 = @{ key0 = '(?<RegExMatch>(meeting))'; key1 = 'Supervising' } # 
   $A14 = @{ key0 = '(?<RegExMatch>(escalation))'; key1 = 'Escalation' } # Highest priority Category
