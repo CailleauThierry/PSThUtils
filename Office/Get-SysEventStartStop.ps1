@@ -9,6 +9,7 @@
     ===========================================================================
     .DESCRIPTION
     Collects Windows System Event log relative to Event log start and stop time (i.e. OS login logout time) 
+    Gets computer start and stop time for the last 3 Month
 #>
 
 $outfile = Get-Item "$HOME\Documents\WindowsPowerShell\TimedTask_Logs\FormatedLogin.csv"
@@ -17,7 +18,7 @@ if (Test-Path $outfile) { # Test if file full path (string) stored in $outfile e
   $Silent = Remove-Item $outfile 
 }
 
-$importedtable = Get-EventLog -LogName System -After 03/02/2017 -Source EventLog -ComputerName $env:COMPUTERNAME -AsBaseObject |
+$importedtable = Get-EventLog -LogName System -After ((get-date).AddMonths(-3)) -Source EventLog -ComputerName $env:COMPUTERNAME -AsBaseObject |
 Where-Object -Property EventID -match '6005|6006' | 
 Select-Object TimeGenerated,Message # | Export-Csv -Path $HOME\Documents\WindowsPowerShell\TimedTask_Logs\eventlog.csv -NoClobber -NoTypeInformation
 
