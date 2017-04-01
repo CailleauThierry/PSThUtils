@@ -8,13 +8,16 @@
     Filename:     	Get-SysEventStartStop.ps1
     ===========================================================================
     .DESCRIPTION
-    Collects Windows System Event log relative to Event log start and stop time (i.e. OS login logout time) 
+      Collects Windows System Event log relative to Event log start and stop time (i.e. OS login logout time) 
     Gets computer start and stop time for the last 3 Month
+    .EXAMPLE
+      .\Get-SysEventStartStop.ps1 # gets its inout from System Event logs and place the last 3 month results as .csv in $HOME\Documents\WindowsPowerShell\TimedTask_Logs\FormatedLogin.csv
+    Alternatively run Get-SysEventStartStop_v0.0.1.exe or by launching Get-SysEventStartStop.bat which will run Get-SysEventStartStop.ps1
 #>
 
 $outfile = Get-Item "$HOME\Documents\WindowsPowerShell\TimedTask_Logs\FormatedLogin.csv"
 
-if (Test-Path $outfile) { # Test if file full path (string) stored in $outfile exist. If yes, delets it
+if (Test-Path $outfile) { # Test if file full path (string) stored in $outfile exist. If yes, deletes it
   $Silent = Remove-Item $outfile 
 }
 
