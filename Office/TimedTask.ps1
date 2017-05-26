@@ -186,7 +186,7 @@ function New-TSEntry
   $A5 = @{ key0 = '(?<RegExMatch>(installed|editing|github|script|ps1))'; key1 = 'Development' } # 
   $A6 = @{ key0 = "(?<RegExMatch>(\sJP|Bill|Stephan|Ivo|PR'ed|\sPR\s))"; key1 = 'L3 Mentee Review' } # 
   $A7 = @{ key0 = '(?<RegExMatch>(G2A))'; key1 = 'G2A' } # 
-  $A8 = @{ key0 = '(?<RegExMatch>(Sathya|Igor|DTS|FRN))'; key1 = 'DTS' } # 
+  $A8 = @{ key0 = '(?<RegExMatch>(Sathya|Igor|DTS|EV-|FRN))'; key1 = 'DTS' } # 
   $A9 = @{ key0 = '(?<RegExMatch>(inbound|call))'; key1 = 'Inbound Call' } # 
   $A10 = @{ key0 = '(?<RegExMatch>(management))'; key1 = 'Management' } # 
   $A11 = @{ key0 = '(?<RegExMatch>(Shaun|Mathieu|internal|Kevin|Bloks|Bramley|Daniel|Pesa))'; key1 = 'Internal Request' } #
