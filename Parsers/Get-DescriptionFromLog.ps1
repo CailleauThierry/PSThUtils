@@ -4,7 +4,7 @@
 		Based on Get-EVVersion.ps1 revision 1.0 stable on 10/23/2017. Detects if log to scan is either Agent or Vault log format and extract essential information for ticket documenting
     This Get-DescriptionFromLog.ps1 on 10/23/2017 is an attempt to change the regex rules and PSObject parameter to match current ticket documentation needs i.e.:
 	  Working with:
-    Vault Name:
+     Vault Name IP or FQDN:
     Vault Version:
     Agent Name:
     Agent OS:
@@ -74,7 +74,7 @@ if (($log1[1]) -match '(^)((\d{2}\-\w{3}-\d{4}\s))')
 	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
 	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
 	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultName 'Vault Name'
+	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)(\d{2}-\w{3}-\d{4})';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3}-\d{4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
@@ -86,7 +86,7 @@ if (($log1[1]) -match '(^)((\d{2}\-\w{3}-\d{4}\s))')
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
 	$A7 = @{key0 = ' tid=';key1 = '(tid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'TaskGUID'}
 	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'VaultName'}  				# since guid are a set format, I do not need to match the "," at the end
+	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	}
 
 elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
@@ -102,7 +102,7 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
 	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
 	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultName 'Vault Name'
+	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)(\w{3}\d{2})';key1 = '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
@@ -114,7 +114,7 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
 	$A7 = @{key0 = ' tid=';key1 = '(tid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'TaskGUID'}
 	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'VaultName'}  				# since guid are a set format, I do not need to match the "," at the end
+	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	}
 
 elseif (($log1[1]) -match '(^)((\d{2}\-\w{3}\s))')
@@ -130,7 +130,7 @@ elseif (($log1[1]) -match '(^)((\d{2}\-\w{3}\s))')
 	$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
 	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
 	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultName 'Vault Name'
+	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)((\d{2}\-\w{3}))';key1 = '(^)(?<RegExMatch>(\d{2}\-\w{3,4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\d{2}\-\w{3}\s\d{2}:\d{2}:\d{2}))' matching format '04-Dec 21:30:02'
@@ -142,7 +142,7 @@ elseif (($log1[1]) -match '(^)((\d{2}\-\w{3}\s))')
 	$A6 = @{key0 =  '\-I\-04133';key1 = '(\-I\-04133.*)(?<RegExMatch>([\s]\d+))';key2 = 'SafesetNumber'}					# '\-I\-04133[\s].*)(?<RegExMatch>([\s]\d+))' matching format  '-I-04132 synching catalog number is XXX' in any languages
 	$A7 = @{key0 = ' tid=';key1 = '(tid=)(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'TaskGUID'}
 	$A8 = @{key0 = ' cid=';key1 = '(cid=)(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = '\-I\-04746';key1 = '((SSET-I-04746.*\s)(?<RegExMatch>(.*)),)';key2 = 'VaultName'}  				# since guid are a set format, I do not need to match the "," at the end
+	$A9 = @{key0 = '\-I\-04746';key1 = '(SSET\-I\-04746.*\s)(?<RegExMatch>(.*)),';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	
 	} 
 	else
@@ -158,7 +158,7 @@ elseif (($log1[1]) -match '(^)((\d{2}\-\w{3}\s))')
 		$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated
 		$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
 		$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-		$Log | Add-Member NoteProperty VaultName 'Vault Name'
+		$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	}
 
 $Keys = @(
@@ -182,8 +182,7 @@ for($counter = 0; $counter -lt $Keys.Length; $counter++){
 # key2 Property (like AgentVersion, HostName, TaskName. This is the resulte of observer redundancies and size optimzation of the code
 
 if ($consume -notlike $null) {
-		$temp = $Keys[$counter].key2
-		$Log."$temp" = $Matches[2]
+		$Log.($Keys[$counter].key2) = $Matches[2]
 }
 
 }
