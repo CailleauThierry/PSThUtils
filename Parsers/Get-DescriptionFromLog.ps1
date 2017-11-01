@@ -139,7 +139,7 @@ elseif (($log1[1]) -match '(^)((\d{2}\-\w{3}\s))')
 	$A3 = @{key0 =  ' hn=';key1 =  '(hn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'HostName'} 										# RegEx tested on http://rubular.com/ (.*?) where "?" means relunctant (matches only once) as oppose to greedy. See http://groovy.codehaus.org/Tutorial+5+-+Capturing+regex+groups> 
 	$A4 = @{key0 =  ' ip=';key1 = '(ip=)(?<RegExMatch>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))';key2 = 'IPAddress'} 				# '(ip=)' is not needed here but it looks consistent with previous (hn=)
 	$A5 = @{key0 =  ' tn=';key1 =  '(tn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'TaskName'}
-	$A6 = @{key0 =  '\-I\-04133';key1 = '(\-I\-04133.*)(?<RegExMatch>([\s]\d+))';key2 = 'SafesetNumber'}					# '\-I\-04133[\s].*)(?<RegExMatch>([\s]\d+))' matching format  '-I-04132 synching catalog number is XXX' in any languages
+	$A6 = @{key0 =  '\-I\-04133';key1 = '(\-I\-04133.*[\s])(?<RegExMatch>(\d+))';key2 = 'SafesetNumber'}					# '\-I\-04133[\s].*)(?<RegExMatch>([\s]\d+))' matching format  '-I-04132 synching catalog number is XXX' in any languages
 	$A7 = @{key0 = ' tid=';key1 = '(tid=)(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'TaskGUID'}
 	$A8 = @{key0 = ' cid=';key1 = '(cid=)(?<RegExMatch>(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
 	$A9 = @{key0 = '\-I\-04746';key1 = '(SSET\-I\-04746.*\s)(?<RegExMatch>(.*)),';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
