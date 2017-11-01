@@ -3,8 +3,8 @@
 	.SYNOPSIS
 		Based on Get-EVVersion.ps1 revision 1.0 stable on 10/23/2017. Detects if log to scan is either Agent or Vault log format and extract essential information for ticket documenting
     This Get-DescriptionFromLog.ps1 on 10/23/2017 is an attempt to change the regex rules and PSObject parameter to match current ticket documentation needs i.e.:
-	  Working with:
-     Vault Name IP or FQDN:
+    Working with:
+    Vault Name IP or FQDN:
     Vault Version:
     Agent Name:
     Agent OS:
@@ -37,7 +37,7 @@
 
 
 param ( 
-[Parameter(mandatory=$true)][string] $InputFile
+[Parameter(mandatory=$true,HelpMessage='Needs full path to file to parse')][string] $InputFile
 )
 
 # set Clipboard
@@ -68,7 +68,7 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for a Vault 8 log in text format'
 	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
 	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty HostName 'Could not find a Host name'
+	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
 	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
 	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
 	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
@@ -80,7 +80,7 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 	$A0 = @{key0 = '(^)(\d{2}-\w{3}-\d{4})';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3}-\d{4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
 	$A1 = @{key0 = '-I-0354';key1 = '(\<)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))';key2 = 'AgentVersion'}  					# '(\<)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))' matching format 'VVLT-I-0354 Agent version is <7.50.6422>'
 	$A2 = @{key0 = '-I-0219';key1 = '(\s)(?<RegExMatch>(\d{1}\.\d{2}))';key2 = 'VaultVersion'}  							# changed keyword " Vault Version" to " BKUP-I-04315" as in French it would Be "Version du vault" , note sub-filtering by ault As vault in english is upppercase V
-	$A3 = @{key0 =  'hn =';key1 = '(hn = )(?<RegExMatch>(.*?))($)';key2 = 'HostName'} 										# '(hn =)(?<RegExMatch>(.*?))($)' matching format 'hn = 1_host_name 
+	$A3 = @{key0 =  'hn =';key1 = '(hn = )(?<RegExMatch>(.*?))($)';key2 = 'AgentHostName'} 										# '(hn =)(?<RegExMatch>(.*?))($)' matching format 'hn = 1_host_name 
 	$A4 = @{key0 =  'ip =';key1 = '(ip = )(?<RegExMatch>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))';key2 = 'IPAddress'} 			# '(ip=)' is not needed here but it looks consistent with previous (hn=)
 	$A5 = @{key0 =  ' tn = ';key1 = '(tn = )(?<RegExMatch>(.*))';key2 = 'TaskName'}											# '(tn = )(?<RegExMatch>(.*))' matching format 'tn = 1_task_name'
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
@@ -96,7 +96,7 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for a Vault 7 log in text format'
 	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
 	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty HostName 'Could not find a Host name'
+	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
 	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
 	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
 	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
@@ -108,7 +108,7 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 	$A0 = @{key0 = '(^)(\w{3}\d{2})';key1 = '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
 	$A1 = @{key0 = '-I-0354';key1 = '(\<)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))';key2 = 'AgentVersion'}  					# '(\<)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))' matching format 'VVLT-I-0354 Agent version is <7.50.6422>'
 	$A2 = @{key0 = '-I-0219';key1 = '(\s)(?<RegExMatch>(\d{1}\.\d{2}))';key2 = 'VaultVersion'}  							# changed keyword " Vault Version" to " BKUP-I-04315" as in French it would Be "Version du vault" , note sub-filtering by ault As vault in english is upppercase V
-	$A3 = @{key0 =  'hn =';key1 = '(hn = )(?<RegExMatch>(.*?))($)';key2 = 'HostName'} 										# '(hn =)(?<RegExMatch>(.*?))($)' matching format 'hn = 1_host_name 
+	$A3 = @{key0 =  'hn =';key1 = '(hn = )(?<RegExMatch>(.*?))($)';key2 = 'AgentHostName'} 										# '(hn =)(?<RegExMatch>(.*?))($)' matching format 'hn = 1_host_name 
 	$A4 = @{key0 =  'ip =';key1 = '(ip = )(?<RegExMatch>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))';key2 = 'IPAddress'} 			# '(ip=)' is not needed here but it looks consistent with previous (hn=)
 	$A5 = @{key0 =  ' tn = ';key1 = '(tn = )(?<RegExMatch>(.*))';key2 = 'TaskName'}											# '(tn = )(?<RegExMatch>(.*))' matching format 'tn = 1_task_name'
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
@@ -124,7 +124,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for an Agent log in text format'
 	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
 	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty HostName 'Could not find a Host name'
+	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
 	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
 	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
 	$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
@@ -136,7 +136,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 	$A0 = @{key0 = '(^)((\d{2}-\w{3}))';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3,4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\d{2}-\w{3}\s\d{2}:\d{2}:\d{2}))' matching format '04-Dec 21:30:02'
 	$A1 = @{key0 = '-I-04314';key1 = '(\s)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))';key2 = 'AgentVersion'}  						# " BKUP-I-04314" same code as" REST-I-04314" so chnaging it to "-I-04314" only
 	$A2 = @{key0 = '-I-04315';key1 = '(\s)(?<RegExMatch>(\d{1}\.\d{2}))';key2 = 'VaultVersion'}  								# changed keyword " Vault Version" to " BKUP-I-04315" as in French it would Be "Version du vault" , note sub-filtering by ault As vault in english is upppercase V
-	$A3 = @{key0 =  ' hn=';key1 =  '(hn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'HostName'} 										# RegEx tested on http://rubular.com/ (.*?) where "?" means relunctant (matches only once) as oppose to greedy. See http://groovy.codehaus.org/Tutorial+5+-+Capturing+regex+groups> 
+	$A3 = @{key0 =  ' hn=';key1 =  '(hn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'AgentHostName'} 										# RegEx tested on http://rubular.com/ (.*?) where "?" means relunctant (matches only once) as oppose to greedy. See http://groovy.codehaus.org/Tutorial+5+-+Capturing+regex+groups> 
 	$A4 = @{key0 =  ' ip=';key1 = '(ip=)(?<RegExMatch>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))';key2 = 'IPAddress'} 				# '(ip=)' is not needed here but it looks consistent with previous (hn=)
 	$A5 = @{key0 =  ' tn=';key1 =  '(tn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'TaskName'}
 	$A6 = @{key0 =  '-I-04133';key1 = '(-I-04133.*[\s])(?<RegExMatch>(\d+))';key2 = 'SafesetNumber'}					# '-I-04133[\s].*)(?<RegExMatch>([\s]\d+))' matching format  '-I-04132 synching catalog number is XXX' in any languages
@@ -152,7 +152,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 		$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for an Carbonite Agent or Vault log in text format'
 		$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
 		$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-		$Log | Add-Member NoteProperty HostName 'Could not find a Host name'
+		$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
 		$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
 		$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
 		$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated
@@ -179,7 +179,7 @@ for($counter = 0; $counter -lt $Keys.Length; $counter++){
 	# $consume consumes the result of the pipe since we are not directly interested by the pipe result but its side product from the $matches automatic variable and if true or false match for the conditional if loop
 	$consume = $log1 | Where-Object {$_ -match $Keys[$counter].key0 } | Where-Object {$_ -match  $Keys[$counter].key1}
 
-# key2 Property (like AgentVersion, HostName, TaskName. This is the resulte of observer redundancies and size optimzation of the code
+# key2 Property (like AgentVersion, AgentHostName, TaskName. This is the resulte of observer redundancies and size optimzation of the code
 
 if ($consume -notlike $null) {
 		$Log.($Keys[$counter].key2) = $Matches[2]
@@ -198,7 +198,7 @@ $Log | Set-Clipboard
 #LogEndTime   : 12-Dec 21:33:48
 #AgentVersion : 7.24.9012
 #VaultVersion : 7.01
-#HostName     : Host1
+#AgentHostName     : Host1
 #IPAddress    : 192.168.1.1
 #TaskName     : Host1-EXCH
 #TaskGUID     : 96336c5c-4aff-4485-a3b0-ca2f31499484
