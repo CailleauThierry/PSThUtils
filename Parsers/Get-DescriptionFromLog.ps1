@@ -11,7 +11,7 @@
     Agent Version:
     Portal Version:
     Task Name:
-    < 3rd Party App> Version:
+	< 3rd Party App> Version:
 	
 	.DESCRIPTION
 		Look at the date format to establish if the log is an Agent or a Vautl log (does not translate .xlog to text yet so you have to before using this script)
@@ -47,9 +47,9 @@ param (
 
 # $log1 for Get-Content of it $log1 = Get-Content C:\hsgTest\input\Backup-526ABFBB-48AC-29B4.LOG
 
-$Log = New-Object PSObject
-$Log | Add-Member NoteProperty LogPath 'A path to a valid Agent log file was not found'
-$Log | Add-Member NoteProperty LogName 'Could not find a file name in Dragged & Dropped input'
+$Log = New-Object -TypeName PSObject
+$Log | Add-Member -MemberType NoteProperty -Name LogPath 'A path to a valid Agent or Vault log file was not found'
+$Log | Add-Member -MemberType NoteProperty -Name LogName 'Could not find a file name in Dragged & Dropped input'
 
 
 #, vid=4e354d4a-4d7b-49d7-8c9d-11de84e19bff, cid=9c269aa4-ee11-491c-956e-b076a507719a, tid=96336c5c-4aff-4485-a3b0-ca2f31499484
@@ -65,16 +65,16 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 {
 	# matching Vault 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for a Vault 8 log in text format'
-	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
-	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
-	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
-	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
-	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
-	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
-	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name LogEndTime 'Could not find a valid time format for a Vault 8 log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentVersion 'No Agent version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultVersion 'No Vault version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentHostName 'Could not find a Agent host name'
+	$Log | Add-Member -MemberType NoteProperty -Name IPAddress 'Could not find a IP Address'
+	$Log | Add-Member -MemberType NoteProperty -Name TaskName 'Could not find a task name'
+	$Log | Add-Member -MemberType NoteProperty -Name TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
+	$Log | Add-Member -MemberType NoteProperty -Name TaskGUID 'Could not find a Task GUID'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentOS 'Could not find an an Agent GUID'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultNameIPOrFQDN 'Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)(\d{2}-\w{3}-\d{4})';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3}-\d{4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
@@ -85,24 +85,24 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 	$A5 = @{key0 =  ' tn = ';key1 = '(tn = )(?<RegExMatch>(.*))';key2 = 'TaskName'}											# '(tn = )(?<RegExMatch>(.*))' matching format 'tn = 1_task_name'
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
 	$A7 = @{key0 = ' tid=';key1 = '(tid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'TaskGUID'}
-	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
+	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'AgentOS'}  				# there is no "," at the end of the first cid
+	$A9 = @{key0 = ' Vault: ';key1 = '( Vault: )(?<RegExMatch>(.*))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	}
 
 elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 {
 	# matching Vault 7.11 log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for a Vault 7 log in text format'
-	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
-	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
-	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
-	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
-	$Log | Add-Member NoteProperty TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
-	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
-	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name LogEndTime 'Could not find a valid time format for a Vault 7 log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentVersion 'No Agent version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultVersion 'No Vault version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentHostName 'Could not find a Agent host name'
+	$Log | Add-Member -MemberType NoteProperty -Name IPAddress 'Could not find a IP Address'
+	$Log | Add-Member -MemberType NoteProperty -Name TaskName 'Could not find a task name'
+	$Log | Add-Member -MemberType NoteProperty -Name TaskNumber 'Could not find a TaskNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
+	$Log | Add-Member -MemberType NoteProperty -Name TaskGUID 'Could not find a Task GUID'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentOS 'Could not find an Agent GUID'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)(\w{3}\d{2})';key1 = '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\w{3,4}\d{2}\s\d{2}:\d{2}:\d{2}))' matching format 'May22 21:19:03'
@@ -113,24 +113,24 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 	$A5 = @{key0 =  ' tn = ';key1 = '(tn = )(?<RegExMatch>(.*))';key2 = 'TaskName'}											# '(tn = )(?<RegExMatch>(.*))' matching format 'tn = 1_task_name'
 	$A6 = @{key0 =  ' tid= ';key1 = '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))';key2 = 'TaskNumber'}							# '(tid= .*  \()(?<RegExMatch>([\d]{1,3}))' matching format 'tid= e69994fd-fd03-4a15-b645-0c7097760595  (2)' by counting 1 "single space" i.e '[\s]' and then 2 single space i.e. [\s]{2} then checking for opening parentheses '\('  where '.*' stands for "anycharacters in between"
 	$A7 = @{key0 = ' tid=';key1 = '(tid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'TaskGUID'}
-	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = ' vid=';key1 = '(vid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
+	$A8 = @{key0 = ' cid=';key1 = '(cid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'AgentOS'}  				# there is no "," at the end of the first cid
+	$A9 = @{key0 = ' Vault: ';key1 = '( Vault: )(?<RegExMatch>(.*))';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	}
 
 elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 {
 	# matching Agent 7.x and 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for an Agent log in text format'
-	$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
-	$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-	$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
-	$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
-	$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
-	$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
-	$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
-	$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-	$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name LogEndTime 'Could not find a valid time format for an Agent log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentVersion 'No Agent version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultVersion 'No Vault version Available in this log'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentHostName 'Could not find a Agent host name'
+	$Log | Add-Member -MemberType NoteProperty -Name IPAddress 'Could not find a IP Address'
+	$Log | Add-Member -MemberType NoteProperty -Name TaskName 'Could not find a task name'
+	$Log | Add-Member -MemberType NoteProperty -Name SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated below
+	$Log | Add-Member -MemberType NoteProperty -Name TaskGUID 'Could not find a Task GUID'
+	$Log | Add-Member -MemberType NoteProperty -Name AgentOS 'Could not find an Agent OS'
+	$Log | Add-Member -MemberType NoteProperty -Name VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = '(^)((\d{2}-\w{3}))';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3,4}\s\d{2}:\d{2}:\d{2}))';key2 = 'LogEndTime'}  	# '(^)(?<RegExMatch>(\d{2}-\w{3}\s\d{2}:\d{2}:\d{2}))' matching format '04-Dec 21:30:02'
@@ -141,24 +141,23 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 	$A5 = @{key0 =  ' tn=';key1 =  '(tn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'TaskName'}
 	$A6 = @{key0 =  '-I-04133';key1 = '(-I-04133.*[\s])(?<RegExMatch>(\d+))';key2 = 'SafesetNumber'}					# '-I-04133[\s].*)(?<RegExMatch>([\s]\d+))' matching format  '-I-04132 synching catalog number is XXX' in any languages
 	$A7 = @{key0 = ' tid=';key1 = '(tid=)(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'TaskGUID'}
-	$A8 = @{key0 = ' cid=';key1 = '(cid=)(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'AgentGUID'}  				# there is no "," at the end of the first cid
-	$A9 = @{key0 = '-I-04746';key1 = '(SSET-I-04746.*\s)(?<RegExMatch>(.*)),';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
-	
+	$A8 = @{key0 = ' NT \d{1}';key1 = '(Windows )(?<RegExMatch>(NT\s\d{1,2}\.\d{1}))';key2 = 'AgentOS'}  				# there is no "," at the end of the first cid
+	$A9 = @{key0 = '-I-04746.';key1 = '(SSET-I-04746.*\s)(?<RegExMatch>(.*)),';key2 = 'VaultNameIPOrFQDN'}  				# since guid are a set format, I do not need to match the "," at the end
 	} 
 	else
 	{
 		# no Carbonite logs match were found
 		#Log object definition also defines in what order the objects will be displayed at the end
-		$Log | Add-Member NoteProperty LogEndTime 'Could not find a valid time format for an Carbonite Agent or Vault log in text format'
-		$Log | Add-Member NoteProperty AgentVersion 'No Agent version Available in this log'
-		$Log | Add-Member NoteProperty VaultVersion 'No Vault version Available in this log'
-		$Log | Add-Member NoteProperty AgentHostName 'Could not find a Agent host name'
-		$Log | Add-Member NoteProperty IPAddress 'Could not find a IP Address'
-		$Log | Add-Member NoteProperty TaskName 'Could not find a task name'
-		$Log | Add-Member NoteProperty SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated
-		$Log | Add-Member NoteProperty TaskGUID 'Could not find a Task GUID'
-		$Log | Add-Member NoteProperty AgentGUID 'Could not find an Agent GUID'
-		$Log | Add-Member NoteProperty VaultNameIPOrFQDN ' Vault Name IP or FQDN'
+		$Log | Add-Member -MemberType NoteProperty -Name LogEndTime 'Could not find a valid time format for an Carbonite Agent or Vault log in text format'
+		$Log | Add-Member -MemberType NoteProperty -Name AgentVersion 'No Agent version Available in this log'
+		$Log | Add-Member -MemberType NoteProperty -Name VaultVersion 'No Vault version Available in this log'
+		$Log | Add-Member -MemberType NoteProperty -Name AgentHostName 'Could not find a Agent host name'
+		$Log | Add-Member -MemberType NoteProperty -Name IPAddress 'Could not find a IP Address'
+		$Log | Add-Member -MemberType NoteProperty -Name TaskName 'Could not find a task name'
+		$Log | Add-Member -MemberType NoteProperty -Name SafesetNumber 'Could not find a SafesetNumber number' # This Agent specific parameter is the reason why the whole $Log object definition is repeated
+		$Log | Add-Member -MemberType NoteProperty -Name TaskGUID 'Could not find a Task GUID'
+		$Log | Add-Member -MemberType NoteProperty -Name AgentOS 'Could not find an Agent OS'
+		$Log | Add-Member -MemberType NoteProperty -Name VaultNameIPOrFQDN ' Vault Name IP or FQDN'
 	}
 
 $Keys = @(
@@ -187,21 +186,39 @@ if ($consume -notlike $null) {
 
 }
 
+if ($Log.AgentOS -match 'NT \d{1,2}\.\d{1}') {
+	$Log.AgentOS = {Switch -Regex ($Log.AgentOS) {
+		"NT 5\.0" {'Windows 2000';Break}
+		"NT 5\.1" {'Windows XP';Break}
+		"NT 5\.2" {'Windows Server 2003 or Windows Server 2003 R2';Break}
+		"NT 6\.0" {'Windows Server 2008';Break}
+		"NT 6\.1" {'Windows 7 or Windows Server 2008 R2 or Windows Home Server 2011';Break}
+		"NT 6\.2"  {'Windows 8 or Windows Server 2012';Break}
+		"NT 6\.3"  {'Windows 8.1 or Windows Server 2012 R2 ';Break}
+		"NT 10\.0" {'Windows 10 or Windows Server 2016';Break}
+		Default {'Could not detect Agent OS'}
+	}}.InvokeReturnAsIs()
+}
+
 # Use case
 $Log | Set-Clipboard
  
 #Once pasted from clipboard the result is:
 #
 #
-#LogPath      : C:\posh\input\BACKUP.XLOG.log
-#LogName      : BACKUP.XLOG.log
-#LogEndTime   : 12-Dec 21:33:48
-#AgentVersion : 7.24.9012
-#VaultVersion : 7.01
-#AgentHostName     : Host1
-#IPAddress    : 192.168.1.1
-#TaskName     : Host1-EXCH
-#TaskGUID     : 96336c5c-4aff-4485-a3b0-ca2f31499484
-#AgentGUID    : 9c269aa4-ee11-491c-956e-b076a507719a
-#VaultGUID    : 4e354d4a-4d7b-49d7-8c9d-11de84e19bff
+# LogPath           : C:\Users\tcailleau\Documents\WindowsPowerShell\TestExamples\Agent\7.22_NT_6.2.log
+# LogName           : 7.22_NT_6.2.log
+# LogEndTime        : 19-Sep 09:31:36
+# AgentVersion      : 7.22.2211
+# VaultVersion      : 8.00
+# AgentHostName     : Host1
+# IPAddress         : 11.222.333.44
+# TaskName          : SQL_DEFAULT
+# SafesetNumber     : 13446
+# TaskGUID          : 75ab113b-9611-4a4e-a0f1-22a7a8cf16d3
+# AgentOS           : Windows 8 or Windows Server 2012
+# VaultNameIPOrFQDN : VaultName1
+
+
+
 
