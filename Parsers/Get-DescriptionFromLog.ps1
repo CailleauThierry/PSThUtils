@@ -67,7 +67,7 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 {
 	# matching Vault 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
 	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS from log'
@@ -93,7 +93,7 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 {
 	# matching Vault 7.11 log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
 	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS from log'
@@ -120,7 +120,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 {
 	# matching Agent 7.x and 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" ' Vault Name IP or FQDN'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
 	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS'
