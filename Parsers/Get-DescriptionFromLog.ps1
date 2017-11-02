@@ -201,8 +201,8 @@ if ($Log.AgentOS -match 'NT \d{1,2}\.\d{1}') {
 }
 
 # Use case
-$Log | Out-File .\result.txt -Force;
-Get-Content .\result.txt | Set-Clipboard;
+$Log | Out-File .\result.txt -Force
+Get-Content .\result.txt | Set-Clipboard
 Get-Item .\result.txt | Remove-Item
 
 #Once pasted from clipboard the result is:
