@@ -139,7 +139,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 	$A4 = @{key0 = '-I-04314';key1 = '(\s)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))';key2 = 'Agent Version'} 				
 	$A5 = @{key0 = '';key1 = '';key2 = 'Portal Version'}
 	$A6 = @{key0 = ' tn=';key1 =  '(tn=)(?<RegExMatch>(.*?))[,\s]\s*';key2 = 'Task Name'}					
-	$A7 = @{key0 = '';key1 = '';key2 = '3rd Party App Version'}
+	$A7 = @{key0 = '-I-09299';key1 = '(^.*\()(?<RegExMatch>(M.*\d{2}\.\d{1}\.\d{4}\.\d{1}))';key2 = '3rd Party App Version'}
 	$A8 = @{key0 = '(^)((\d{2}-\w{3}))';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3,4}\s\d{2}:\d{2}:\d{2}))';key2 = 'Log End Time'} 
 	} 
 	else
