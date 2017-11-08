@@ -5,7 +5,7 @@
     Detects if log to scan is either Agent or Vault log format and extract essential information for ticket documentation like:
 
     Working with:
-    Vault Name IP or FQDN:
+    N/A:
     Vault Version:
     Agent Name:
     Agent OS:
@@ -67,15 +67,15 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 {
 	# matching Vault 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS from log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'No Agent version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'Did not get Portal Version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'Could not find a task name'
-	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'Did not find other components version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'Could not find a valid time format for a Vault 7 log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'N/A'
 
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
 	$A0 = @{key0 = ' Vault: ';key1 = '( Vault: )(?<RegExMatch>(.*))';key2 = 'Vault Name or IP'} 
@@ -93,15 +93,15 @@ elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
 {
 	# matching Vault 7.11 log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS from log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'No Agent version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'Did not get Portal Version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'Could not find a task name'
-	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'Did not find other components version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'Could not find a valid time format for a Vault 7 log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'N/A'
 
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
@@ -120,15 +120,15 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 {
 	# matching Agent 7.x and 8.x log formating
 	#Log object definition also defines in what order the objects will be displayed at the end
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'Vault Name IP or FQDN'
-	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'No Vault version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'Could not find a Agent host name'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'No Agent version Available in this log'
-	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'Did not get Portal Version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'Could not find a task name'
-	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'Did not find other components version'
-	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'Could not find a valid time format for an Agent log in text format'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "3rd Party App Version" 'N/A'
+	$Log | Add-Member -MemberType NoteProperty -Name "Log End Time" 'N/A'
 	
 	
 	# key0 : line identifier key1 : RegEx Expression Matching for key0 identifier key2 is the PSObject Property Name associated with key0 identifier
