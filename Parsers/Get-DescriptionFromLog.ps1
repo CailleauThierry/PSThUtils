@@ -123,7 +123,7 @@ elseif (($log1[1]) -match '(^)((\d{2}-\w{3}\s))')
 	$Log | Add-Member -MemberType NoteProperty -Name "Vault Name or IP" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Vault Version" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent Host Name" 'N/A'
-	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'Could not find an Agent OS'
+	$Log | Add-Member -MemberType NoteProperty -Name "Agent OS" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Agent Version" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Portal Version" 'N/A'
 	$Log | Add-Member -MemberType NoteProperty -Name "Task Name" 'N/A'
