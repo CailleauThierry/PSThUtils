@@ -47,7 +47,7 @@ Version 0.0.0.1:
 # This script requires PowerShell version 2 or above to run
 #Requires -Version 2.0
 
-Get-ChildItem -Path C:\Temp\04xxxxxx\ -Include *.bz2 -Recurse | ForEach-Object {
+Get-ChildItem -Path C:\Temp\04xxxxxx\ -Include *.bz2,*.zip -Recurse | ForEach-Object {
 	if (($_.Name.Split(".")[-2].ToString() + "." + $_.Name.Split(".")[-1].ToString()) -eq "tar.bz2") {
 		if (Test-Path ($_.FullName.Split(".")[0])){
 		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse
@@ -56,4 +56,13 @@ Get-ChildItem -Path C:\Temp\04xxxxxx\ -Include *.bz2 -Recurse | ForEach-Object {
 			Write-Output "$_.Name did not have an expanded Directory to Delete"
 		}
 	}
+	elseif ($_.Name.Split(".")[-1].ToString() -eq "zip") {
+		if (Test-Path ($_.FullName.Split(".")[0])){
+		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse -Force
+		}
+		else {
+			Write-Output "$($_.Name) did not have an expanded Directory to Delete"
+		}
+	}
+
 }
