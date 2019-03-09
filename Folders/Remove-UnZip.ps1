@@ -47,22 +47,49 @@ Version 0.0.0.1:
 # This script requires PowerShell version 2 or above to run
 #Requires -Version 2.0
 
-Get-ChildItem -Path C:\Temp\04xxxxxx\ -Include *.bz2,*.zip -Recurse | ForEach-Object {
+# Parameter help description
+param(
+[Parameter(Mandatory=$true,  HelpMessage="Please specify the Directory To Scan")]
+[string] $DirToScan = "C:\Temp\04xxxxxx\"
+)
+
+$LogFolder = (Split-Path $profile) + '\' + 'UnZip_Logs'
+
+if (-not (Test-Path $LogFolder)) {
+new-item -itemtype directory $LogFolder
+}
+
+$PowerShellSource = Get-Location
+Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 	if (($_.Name.Split(".")[-2].ToString() + "." + $_.Name.Split(".")[-1].ToString()) -eq "tar.bz2") {
 		if (Test-Path ($_.FullName.Split(".")[0])){
-		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse
+		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse -Force
 		}
 		else {
 			Write-Output "$_.Name did not have an expanded Directory to Delete"
 		}
 	}
-	elseif ($_.Name.Split(".")[-1].ToString() -eq "zip") {
-		if (Test-Path ($_.FullName.Split(".")[0])){
-		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse -Force
+	elseif ($_.Name -match "AFC.*\.zip") {
+		$AFCShortDir = $_.Name.Split(".")[0]
+		$UnzipDirectory = $_.DirectoryName + "\" + "$AFCShortDir"
+		if (Test-Path $UnzipDirectory){
+		Remove-Item -Path $UnzipDirectory -Recurse -Force
 		}
 		else {
-			Write-Output "$($_.Name) did not have an expanded Directory to Delete"
+			Write-Output "$($_.Name) did not have an expanded Directory $UnzipDirectory to Delete"
+			Out-File $LogFolder\Remove-UnZip.log -Append
 		}
 	}
+	elseif ($_.Name.Split(".")[-1].ToString() -eq "zip") {
+		$UnzipDirectory = $_.FullName.TrimEnd(".zip")
+		if (Test-Path $UnzipDirectory){
+		Remove-Item -Path $UnzipDirectory -Recurse -Force
+		}
+		else {
+			Write-Output "$($_.Name) did not have an expanded Directory $UnzipDirectory to Delete"
+			Out-File $LogFolder\Remove-UnZip.log -Append
+		}
+	}
+
 
 }
