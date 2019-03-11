@@ -81,7 +81,7 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 		}
 	}
 	elseif ($_.Name.Split(".")[-1].ToString() -eq "zip") {
-		$UnzipDirectory = $_.FullName.TrimEnd(".zip")
+		$UnzipDirectory = $_.FullName.Split(".")[0]
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
 		}
