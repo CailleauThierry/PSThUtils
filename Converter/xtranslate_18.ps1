@@ -1,5 +1,5 @@
 ﻿# xtranslate_18.ps1 based on xtranslate_18.ps1 > changed the end message > changed path to "Carbonite Server Backup" instead of "EVault Software" > removed PS2 strict
-param ( 
+param (
 [Parameter(mandatory=$true)][string] $SourceFileName
 )
 
@@ -14,7 +14,7 @@ function Get-XLogTranslator{
 	process {
 	# runs once pe pipeline object pipeline object
 	# here $_. represnets the
-	
+
 	&'C:\Program Files\Carbonite Server Backup\Agent\XLogTranslator.exe' $_ /o "$_.log"
 	Write-OutPut "Input is:  $_"
 	Write-OutPut "Output is: $_.log"
@@ -24,5 +24,5 @@ function Get-XLogTranslator{
 	}
 }
 
-Get-ChildItem $SourceFileName | Get-XLogTranslator 
+Get-ChildItem $SourceFileName -Filter *.xlog -Recurse | Select-Object $_.FullName | Get-XLogTranslator
 
