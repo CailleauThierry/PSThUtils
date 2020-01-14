@@ -50,7 +50,7 @@ Version 0.0.0.1:
 # Parameter help description
 param(
 [Parameter(Mandatory=$true,  HelpMessage="Please specify the Directory To Scan")]
-[string] $DirToScan = "C:\Temp\04xxxxxx\"
+[string] $DirToScan = "C:\Temp\05xxxxxx"
 )
 
 $LogFolder = (Split-Path $profile) + '\' + 'UnZip_Logs'
