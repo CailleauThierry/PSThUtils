@@ -28,3 +28,5 @@ From <https://stackoverflow.com/questions/29971624/visual-studio-code-cannot-det
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "files.autoSave": "afterDelay"
 }
+
+C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\mingw64\\bin\\git.exe is the path for git installed by GitHub Dekstop and is sufficient for vscode integration
