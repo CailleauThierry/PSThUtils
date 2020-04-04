@@ -1,3 +1,5 @@
+chocolatey -----------------------
+
 1. First, ensure that you are using an administrative shell - you can also install as a non-admin, check out Non-Administrative Installation.
 2. Install with powershell.exe
 NOTE: Please inspect https://chocolatey.org/install.ps1 prior to running any of these scripts to ensure safety. We already know it's safe, but you should verify the security and contents of any script from the internet you are not familiar with. All of these scripts download a remote PowerShell script and execute it on your machine. We take security very seriously. Learn more about our security protocols.
@@ -11,4 +13,18 @@ Copy Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointM
 4. Wait a few seconds for the command to complete.
 5. If you don't see any errors, you are ready to use Chocolatey! Type choco or choco -? now, or see Getting Started for usage instructions.
 
-From <https://chocolatey.org/install> 
+From <https://chocolatey.org/install>
+
+vscode --------------------------------
+
+Adding { "git.path":"d:\\Program Files\\Git\\bin\\gite.exe" } did the job
+
+From <https://stackoverflow.com/questions/29971624/visual-studio-code-cannot-detect-installed-git>
+
+
+{    
+	"git.path":"C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\mingw64\\bin\\git.exe",
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "files.autoSave": "afterDelay"
+}
