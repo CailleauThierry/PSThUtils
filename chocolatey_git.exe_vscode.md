@@ -1,3 +1,7 @@
+chocolatey_git.exe_vscode.md
+Edited: 04_04_2020
+Author: Thiery Cailleau
+
 chocolatey -----------------------
 
 1. First, ensure that you are using an administrative shell - you can also install as a non-admin, check out Non-Administrative Installation.
@@ -23,10 +27,12 @@ From <https://stackoverflow.com/questions/29971624/visual-studio-code-cannot-det
 
 
 {    
-	"git.path":"C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\mingw64\\bin\\git.exe",
-    "telemetry.enableTelemetry": false,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-    "files.autoSave": "afterDelay"
+    "git.path":"C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\cmd\\git.exe",
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "files.autoSave": "afterDelay",
+    "git.enableSmartCommit": true,
+    "git.autofetch": true
 }
 
-C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\mingw64\\bin\\git.exe is the path for git installed by GitHub Dekstop and is sufficient for vscode integration
+C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\cmd\\git.exe" is the path for git installed by GitHub Dekstop and is sufficient for vscode integration
