@@ -1,4 +1,3 @@
-#requires -Version 2.0 -Modules Microsoft.PowerShell.Management
 <#
 	.SYNOPSIS
 		Get-EBCDICToASCII.ps1 on 09/05/2018 version 0.1 is based on this post https://www.powershellmagazine.com/2013/06/17/working-with-non-native-powershell-encoding-ebcdic/
@@ -27,7 +26,18 @@ param (
 [Parameter(mandatory=$true,HelpMessage='Needs full path to file to parse')][string] $SourceFileName
 )
 
-$ConvertedFile = "$SourceFileName" + "_to_ASCII.txt"
-$Buffer = Get-Content $SourceFileName -Encoding byte
+$ConvertedFile = (($SourceFileName).ToString()) + "_to_ASCII.txt"
+$Buffer = Get-Content $SourceFileName -Last 10000 -Encoding Byte
 $Encoding = [System.Text.Encoding]::GetEncoding("IBM037")
 $Encoding.GetString($Buffer) | Out-File $ConvertedFile  -Force
+
+<# 
+PS C:\> Get-Content $SourceFileName -Encoding Byte            
+
+Get-Content : A parameter cannot be found that matches parameter name 'Encoding'.
+At line:1 char:29
++ Get-Content $SourceFileName -Encoding Byte
++                             ~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Content], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+#>

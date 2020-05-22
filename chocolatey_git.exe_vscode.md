@@ -1,5 +1,5 @@
 chocolatey_git.exe_vscode.md
-Edited: 04_04_2020
+Edited: 05_06_2020
 Author: Thiery Cailleau
 
 chocolatey -----------------------
@@ -11,7 +11,10 @@ With PowerShell, you must ensure Get-ExecutionPolicy is not Restricted. We sug
 	○ Run Get-ExecutionPolicy. If it returns Restricted, then run Set-ExecutionPolicy AllSigned or Set-ExecutionPolicy Bypass -Scope Process.
 Now run the following command:
 
-Copy Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) to Clipboard
+Copy:
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
+
+to Clipboard
 
 3. Paste the copied text into your shell and press Enter.
 4. Wait a few seconds for the command to complete.
