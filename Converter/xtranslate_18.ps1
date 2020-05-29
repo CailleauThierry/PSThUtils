@@ -1,6 +1,6 @@
 ﻿# xtranslate_18.ps1 based on xtranslate_18.ps1 > changed the end message > changed path to "Carbonite Server Backup" instead of "EVault Software" > removed PS2 strict
 param (
-[Parameter(mandatory=$true)][string] $SourceFileName
+[Parameter(mandatory=$true)][string] $SourceFileLocation
 )
 
 # creating a (xtranslate_15.exe.config + xtranslate_15.exe) let you drag/drop multiple .xlog and it will translate them
@@ -24,5 +24,5 @@ function Get-XLogTranslator{
 	}
 }
 
-Get-ChildItem $SourceFileName -Filter *.xlog -Recurse | Select-Object $_.FullName | Get-XLogTranslator
+Get-ChildItem $SourceFileLocation -Filter *.xlog -Recurse | Select-Object $_.FullName | Get-XLogTranslator
 
