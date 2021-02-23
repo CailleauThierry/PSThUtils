@@ -28,9 +28,12 @@ sudo apt-get install linux-virtual-lts-xenial linux-tools-virtual-lts-xenial lin
    This script reads the current IP address (changes constantly), and edit the Remote Desktop file with that information U1604D.rdp
 #>
 
-$U1604D_IP = get-vm | Where-Object Name -Match 'U1604D' | Select-Object NetworkAdapters -ExpandProperty NetworkAdapters | Select-Object IPAddresses -ExpandProperty IPAddresses | Select-Object -First 1
+# $U1604D_IP = get-vm | Where-Object Name -Match 'U1604D' | Select-Object NetworkAdapters -ExpandProperty NetworkAdapters | Select-Object IPAddresses -ExpandProperty IPAddresses | Select-Object -First 1
+$U1604D_IP = (get-vm -Name U1604D).NetworkAdapters.IPAddresses[0]
 
 $U1604D_IP
+
+# and with help from https://stackoverflow.com/questions/48813786/change-the-contents-of-a-rdp-file-with-powershell
 
 $RDP = Get-ChildItem "C:\Users\tcailleau\Desktop\U1604D.rdp"
 
