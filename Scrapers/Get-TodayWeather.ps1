@@ -13,7 +13,7 @@ July 31, 2018Microsoft Geek
 We will use an open source web service wttr.in to fetch the weather forecast. 
 Wttr.in can be used not only to check the weather, but also for some other purposes. 
 For example, you can see the current Moon phase. 
-In PowerShell, there is a special alias “curl” for the built-in cmdlet Invoke-RestMethod, which can retrieve the URL contents from the PowerShell console.
+In PowerShell, there is a special alias "curl" for the built-in cmdlet Invoke-RestMethod, which can retrieve the URL contents from the PowerShell console.
 To get the weather forecast in PowerShell, you can use the following commands.
 To get the current weather in PowerShell, type or copy-paste the following command:
 (curl http://wttr.in/?Q0 -UserAgent "curl" ).Content
@@ -34,7 +34,7 @@ This will display the short version of the forecast which includes only Noon and
 This will show only the current weather in the specified location.
 It is worth mentioning that the wttr.in service can show the forecast right in your web browser. 
 Point your browser to the same location you use in PowerShell.
-If you add “.png” to the location, the service will return a PNG image. You can embed it in your web page.
+If you add ".png" to the location, the service will return a PNG image. You can embed it in your web page.
 For example, open this link: http://wttr.in/New-York.png
 
 #>
