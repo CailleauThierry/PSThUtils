@@ -43,7 +43,7 @@ param (
 
 # set Clipboard
 
-. \Set-Clipboard_fc.ps1
+. .\Set-Clipboard_fc.ps1
 
 
 # $log1 for Get-Content of it $log1 = Get-Content C:\hsgTest\input\Backup-526ABFBB-48AC-29B4.LOG
