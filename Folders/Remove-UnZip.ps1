@@ -50,7 +50,7 @@ Version 0.0.0.1:
 # Parameter help description
 param(
 [Parameter(Mandatory=$true,  HelpMessage="Please specify the Directory To Scan")]
-[string] $DirToScan = "C:\Temp\05xxxxxx"
+[string] $DirToScan = "C:\Temp\06xxxxxx"
 )
 
 $LogFolder = (Split-Path $profile) + '\' + 'UnZip_Logs'
@@ -72,6 +72,28 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 	elseif ($_.Name -match "AFC.*\.zip") {
 		$AFCShortDir = $_.Name.Split(".")[0]
 		$UnzipDirectory = $_.DirectoryName + "\" + "$AFCShortDir"
+		if (Test-Path $UnzipDirectory){
+		Remove-Item -Path $UnzipDirectory -Recurse -Force
+		}
+		else {
+			Write-Output "$($_.Name) did not have an expanded Directory $UnzipDirectory to Delete"
+			Out-File $LogFolder\Remove-UnZip.log -Append
+		}
+	}
+	elseif ($_.Name -match "DFC.*\.zip") {
+		$DFCShortDir = $_.Name.Split(".zi")[0]
+		$UnzipDirectory = $_.DirectoryName + "\" + "$DFCShortDir"
+		if (Test-Path $UnzipDirectory){
+		Remove-Item -Path $UnzipDirectory -Recurse -Force
+		}
+		else {
+			Write-Output "$($_.Name) did not have an expanded Directory $UnzipDirectory to Delete"
+			Out-File $LogFolder\Remove-UnZip.log -Append
+		}
+	}
+	elseif ($_.Name -match "PFC.*\.zip") {
+		$PFCShortDir = $_.Name.Split(".zi")[0]
+		$UnzipDirectory = $_.DirectoryName + "\" + "$PFCShortDir"
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
 		}
