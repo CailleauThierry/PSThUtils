@@ -46,5 +46,7 @@ carboniteinc\tcailleau System.Security.SecureString
 #>
 
 Set-Secret -Secret (Get-Credential) -Name AFC
+Set-Secret -Secret (Get-Credential) -Name DFC
+Set-Secret -Secret (Get-Credential) -Name PFC
 
 

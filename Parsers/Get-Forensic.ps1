@@ -59,9 +59,38 @@ if (($sb_name) -match "AFC-.*.zip")
 {
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFC.ps1
 } 
+elseif(($sb_name) -match "afc_.*tar.gz")
+{
+    Write-Host 'did not find AFC-*.zip'
+#    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCLinux.ps1
+}
+elseif(($sb_name) -match "DFC-.*.zip")
+{
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_.*tar.gz'
+    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DFC.ps1
+}
+elseif(($sb_name) -match "PFC-.*.zip")
+{
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_.*tar.gz'
+    Write-Host 'did not find DFC-*.zip'
+#    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DFC.ps1
+}
+elseif(($sb_name) -match ".*.log|.*.txt")
+{
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_.*tar.gz'
+    Write-Host 'did not find DFC-*.zip'
+    Write-Host 'did not find PFC-*.zip'
+    Write-Host "$sb_name content is prsed an placed in the clipboard"
+    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DescriptionFromLog.ps1
+}
 else
 {
-Write-Host 'did not find AFC-*.zip'
-Write-Host "We only got $sb_name"
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_.*tar.gz'
+    Write-Host 'did not find DFC-*.zip'
+    Write-Host 'did not find PFC-*.zip'
 break
 }

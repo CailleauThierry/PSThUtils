@@ -38,7 +38,7 @@
 
 
 param (
-[Parameter(mandatory=$true,HelpMessage='Needs full path to file to parse')][string] $InputFile
+[Parameter(Mandatory=$true,ValueFromPipeline=$true,HelpMessage='Needs full path to file to parse')][string] $InputFile
 )
 
 # set Clipboard

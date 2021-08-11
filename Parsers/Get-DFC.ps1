@@ -2,10 +2,15 @@
 # plan is to make Cmdlets
 # could create a directory structure object
 param ( 
-[Parameter(mandatory=$true)] [string]$DFCZip
+[Parameter(
+	Mandatory=$true,
+	ValueFromPipeline=$true
+	)
+] 
+[string]$DFCZip
 )
-# I had to revert to Get-7zip_PSW_00_01.ps1 as the "-assecurestring" does not play nice with 7-zip
-. C:\posh\Get-7zip_PSW.ps1
+# Passing AFC password from SecretStore CredMan
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
 
 $sb_name = ($DFCZip).Split('\\')[-1]
 
@@ -14,12 +19,14 @@ if (($sb_name) -match "DFC-.*.zip")
 
 
 #extract bz2 and create a sub-directory 1 (non-configurable)
-$subdir1 = (Get-ChildItem $DFCZip | Invoke-SevenZipPswd)[-1]
+$subdir1 = (Get-ChildItem $DFCZip | Invoke-SevenZipPswdCMDFC)[-1]
 
 } 
 else
 {
 Write-Host 'did not find DFC-something.zip'
+Write-Host "We only got $sb_name"
+break
 }
 
 # Navigates to the created directory as returned by Invoke-SevenZipPswd
