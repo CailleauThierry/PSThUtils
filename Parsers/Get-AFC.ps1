@@ -3,7 +3,11 @@
 		Get-AFC works on collected logs from Evault AFC (Agent Forensics Collector) utility
 
 	.DESCRIPTION
-		Get-AFC.ps1 based on Get-AFC_09.ps1 but ported to $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\ for future ease of sharing it.
+		Get-AFC.ps1 
+		Current Changes:
+		Now supports taking parameter fromt he Pipeline, this sohuld allow for a master selector
+		Previous Changes
+		Now works from $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\ for future ease of sharing it.
 		- Extracts AFC-.*.zip (must be in this format for now). Might detect content in the future
 		Bug fixes: would only read event logs in mm/d/yyyy format whereas W2K8 is in mm-d-yyyy
 		New features: is backward compatible with old AFC logs still producing App and sys .evtx event logs instead of the App and sys .csv
@@ -13,14 +17,14 @@
 		Only takes 1 single AFC-.*.zip file with complete path. Where '*' can be any charaters before the '.zip' extension
 
 	.EXAMPLE
-		PS C:\> Drag&Drop AFC-.*.zip file to "Get-AFC_08.ps1 - Shortcut"
-
-	.EXAMPLE
-		PS C:\> Shift Drag&Drop AFC-.*.zip file to "Get-AFC_08.ps1 - Shortcut" place on windows taskbar
+		Shift Drag&Drop AFC-.*.zip file to "Get-AFC.ps1 - Shortcut" place on windows taskbar
 
 	.EXAMPLE
 		PS C:\> Launch "Get-AFC.ps1 - Shortcut" and type in the full "AFC-.*.zip" path like:
 		C:\posh\AFC-.*.zip
+	.EXAMPLE
+		Get-AFC.ps1 is now callable from Pipeline, the script in itself is the function Name
+		PS C:\> gci c:\Temp\06xxxxxx\06292650\DFC-06292650-S174881X7719005-2021-06-23-09-40-11-519.zip | .\Get-AFC.ps1
 
 	.INPUTS
 		System.String
@@ -41,7 +45,12 @@
 
 
 param ( 
-[Parameter(mandatory=$true)] [string]$AFCZip
+[Parameter(
+	Mandatory=$true,
+	ValueFromPipeline=$true
+	)
+] 
+[string]$AFCZip
 )
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
@@ -56,12 +65,14 @@ if (($sb_name) -match "AFC-.*.zip")
 
 
 #extract bz2 and create a sub-directory 1 (non-configurable). The extract folder / directory is created by 7z called within Invoke-SevenZipPswd function defined in Get-7zip_PSW_00_01.ps1
-$subdir1 = (Get-ChildItem $AFCZip | Invoke-SevenZipPswdCM)[-1]
+$subdir1 = (Get-ChildItem $AFCZip | Invoke-SevenZipPswdCMAFC)[-1]
 # Note: This still does not test if AFC file is a valid zip file
 } 
 else
 {
 Write-Host 'did not find AFC-*.zip'
+Write-Host "We only got $sb_name"
+break
 }
 
 # Navigates to the created directory as returned by Invoke-SevenZipPswd
