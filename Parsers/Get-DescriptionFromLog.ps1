@@ -15,7 +15,7 @@
 	< 3rd Party App> Version:
 
 	.DESCRIPTION
-		Look at the date format to establish if the log is an Agent or a Vautl log (does not translate .xlog to text yet so you have to before using this script)
+		Look at the date format to establish if the log is an Agent or a Vault log (does not translate .xlog to text yet so you have to before using this script)
 		Also could add multiple reccurence of the same entry in a different PropertyName
 	.PARAMETER
     [Parameter(mandatory=$true)][string] $InputFile
@@ -38,7 +38,12 @@
 
 
 param (
-[Parameter(Mandatory=$true,ValueFromPipeline=$true,HelpMessage='Needs full path to file to parse')][string] $InputFile
+[Parameter(
+	Mandatory=$true,
+	ValueFromPipeline=$true,
+	HelpMessage='Needs full path to file to parse'
+	)]
+	[string] $InputFile
 )
 
 # set Clipboard

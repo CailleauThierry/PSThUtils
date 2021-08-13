@@ -49,20 +49,16 @@ param (
 [string]$FullForensicPath
 )
 
-<# . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCLinux.ps1
-. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DFC.ps1
-. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-PFC.ps1 #>
-
 $sb_name = ($FullForensicPath).Split('\\')[-1]
 
 if (($sb_name) -match "AFC-.*.zip")
 {
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFC.ps1
 } 
-elseif(($sb_name) -match "afc_.*tar.gz")
+elseif(($sb_name) -match "afc_linux.tar.gz")
 {
     Write-Host 'did not find AFC-*.zip'
-#    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCLinux.ps1
+    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCLinux.ps1
 }
 elseif(($sb_name) -match "DFC-.*.zip")
 {
@@ -75,7 +71,7 @@ elseif(($sb_name) -match "PFC-.*.zip")
     Write-Host 'did not find AFC-*.zip'
     Write-Host 'did not find afc_.*tar.gz'
     Write-Host 'did not find DFC-*.zip'
-#    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DFC.ps1
+    $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-PFC.ps1
 }
 elseif(($sb_name) -match ".*.log|.*.txt")
 {
@@ -83,7 +79,7 @@ elseif(($sb_name) -match ".*.log|.*.txt")
     Write-Host 'did not find afc_.*tar.gz'
     Write-Host 'did not find DFC-*.zip'
     Write-Host 'did not find PFC-*.zip'
-    Write-Host "$sb_name content is prsed an placed in the clipboard"
+    Write-Host ("$sb_name" + "'s content is in the clipboard ready for you to paste! `nException(s) is(are) the following entries(s) that could not be found in this file:")
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DescriptionFromLog.ps1
 }
 else
@@ -92,5 +88,6 @@ else
     Write-Host 'did not find afc_.*tar.gz'
     Write-Host 'did not find DFC-*.zip'
     Write-Host 'did not find PFC-*.zip'
+    Write-Host 'did not find .*.log or .*.txt'
 break
 }
