@@ -61,7 +61,7 @@ new-item -itemtype directory $LogFolder
 
 $PowerShellSource = Get-Location
 Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
-	if (($_.Name.Split(".")[-2].ToString() + "." + $_.Name.Split(".")[-1].ToString()) -eq "tar.bz2") {
+	if (($_.Name.Split(".")[-2].ToString() + "." + $_.Name.Split(".")[-1].ToString()) -eq "tar.bz2" or "tar.gz") {
 		if (Test-Path ($_.FullName.Split(".")[0])){
 		Remove-Item -Path $_.FullName.Split(".")[0] -Recurse -Force
 		}
