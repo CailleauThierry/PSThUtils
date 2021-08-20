@@ -1,4 +1,4 @@
-# Get-AFCLinux.ps1 based on Get-SupportBundle_12.ps1
+# Get-AFCLinux.ps1 based on Get-SupportBundle_12.ps1 updated on 08_20_2021
 # Already automatically translates xlog
 # plan is to make Cmdlets
 # could create a directory structure object
