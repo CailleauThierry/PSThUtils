@@ -1,7 +1,7 @@
-# Get-SupportBundle_12.ps1 based on Get-SupportBundle_11.ps1. Testing it with powershell 3
+# Get-AFCLinux.ps1 based on Get-SupportBundle_12.ps1
+# Already automatically translates xlog
 # plan is to make Cmdlets
 # could create a directory structure object
-# option to xtranslate xlog
 # option to remove .CAT
 param ( 
 [Parameter(
@@ -26,10 +26,10 @@ if (($sb_name) -match "afc_linux.tar.gz")
 #$szResult1 = sz x $ZipFileFull -y $ExtractOptions
 
 #extract gz and create a sub-directory 1 (non-configurable)
-$subdir1 = (Get-ChildItem $SupportBundle | Invoke-SevenZipCMAFCLinux)[-1]
+$subdir1 = (Get-ChildItem $SupportBundle | Invoke-SevenZip)[-1]
 
 #extract tar from sub-directory 1 and creates a sub-directory 2
-$subdir2 = (gci "$sb_Folder$subdir1\*.tar" | Invoke-SevenZipCMAFCLinux)[-1]
+$subdir2 = (Get-ChildItem "$sb_Folder$subdir1\*.tar" | Invoke-SevenZip)[-1]
 
 } 
 else
