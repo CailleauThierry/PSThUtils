@@ -1,5 +1,5 @@
 {
-    "git.path":"C:\\Users\\tcailleau\\AppData\\Local\\GitHubDesktop\\app-2.5.3\\resources\\app\\git\\cmd\\git.exe",
+    "git.path":"",
     "telemetry.enableTelemetry": false,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "files.autoSave": "afterDelay",
