@@ -5,7 +5,7 @@
 	.DESCRIPTION
 		Get-Forensic.ps1 
 		Current Changes:
-		Now supports taking parameter fromt he Pipeline, this sohuld allow for a master selector
+		Now supports taking parameter from the Pipeline, this sohuld allow for a master selector
 		Previous Changes
 		Now works from $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\ for future ease of sharing it.
 		- Extracts AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or .*.log (must be in this format for now). Might detect content in the future
@@ -45,7 +45,7 @@
 
 
 param ( 
-[Parameter(Mandatory=$true)] 
+[Parameter(Mandatory=$true,ValueFromPipeline=$true)] 
 [string]$FullForensicPath
 )
 
