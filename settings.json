@@ -1,7 +1,7 @@
 {
     "git.path":"",
-    "telemetry.enableTelemetry": false,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "files.autoSave": "afterDelay",
     "git.enableSmartCommit": true,
     "git.autofetch": true,
