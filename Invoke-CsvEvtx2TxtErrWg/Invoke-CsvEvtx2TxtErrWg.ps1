@@ -51,10 +51,10 @@ if (($filename) -like "*.csv")
 	Write-Host "Filtering: `n $CsvEvtxFullName"
 
 	Get-ChildItem $CsvEvtxFullName | ForEach-Object { 		
-		Write-Output "Application Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------" | Out-File ("$filedirectory" + "$filename" + "_filtered.txt") -NoClobber
-		Import-Csv $CsvEvtxFullName | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | where {($_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning") -and ($_.Message -notmatch ".*OneNote.*|.*CutePDF.*|.*Xerox.*|.*LaserJet.*|.*Microsoft XPS.*|.*printer.*")}  | Out-File ("$filedirectory" + "$filename" + "_filtered.txt") -Append
+		Write-Output "Application Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------" | Out-File ("$filedirectory" + "$filename" + "_filtered.log") -NoClobber
+		Import-Csv $CsvEvtxFullName | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | where {($_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning") -and ($_.Message -notmatch ".*OneNote.*|.*CutePDF.*|.*Xerox.*|.*LaserJet.*|.*Microsoft XPS.*|.*printer.*")}  | Out-File ("$filedirectory" + "$filename" + "_filtered.log") -Append
 	Write-Host "Filtered to:"
-	Write-Host ("$filedirectory" + "$filename" + "_filtered.txt").ToString()
+	Write-Host ("$filedirectory" + "$filename" + "_filtered.log").ToString()
 	}
 }
  
@@ -62,10 +62,10 @@ elseif(($filename) -like "*.evtx")
 { 
 	Write-Host "Filtering: `n $CsvEvtxFullName"
 	$GWEAppEvtx = Get-WinEvent -Path $CsvEvtxFullName
-	Write-Output "Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File  ("$filedirectory" + "$filename" + "_filtered.txt") -NoClobber
-	$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {($_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning") -and ($_.Message -notmatch ".*OneNote.*|.*CutePDF.*|.*Xerox.*|.*LaserJet.*|.*Microsoft XPS.*|.*printer.*")}   |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File  ("$filedirectory" + "$filename" + "_filtered.txt") -Width 300 -Append
+	Write-Output "Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File  ("$filedirectory" + "$filename" + "_filtered.log") -NoClobber
+	$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {($_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning") -and ($_.Message -notmatch ".*OneNote.*|.*CutePDF.*|.*Xerox.*|.*LaserJet.*|.*Microsoft XPS.*|.*printer.*")}   |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File  ("$filedirectory" + "$filename" + "_filtered.log") -Width 300 -Append
 	Write-Host "Filtered to:"
-	Write-Host ("$filedirectory" + "$filename" + "_filtered.txt").ToString()
+	Write-Host ("$filedirectory" + "$filename" + "_filtered.log").ToString()
 	
 }
 

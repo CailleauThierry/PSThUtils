@@ -40,29 +40,29 @@ Get-ChildItem $DFCExtractPath | ForEach-Object {
 	{
 		"app.csv" {
 			#Application Event			
-			Write-Output "Application Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\app.csv_filtered.txt -NoClobber
-			Import-Csv $DFCExtractPath\app.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $DFCExtractPath\app.csv_filtered.txt -Append
+			Write-Output "Application Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\app.csv_filtered.log -NoClobber
+			Import-Csv $DFCExtractPath\app.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $DFCExtractPath\app.csv_filtered.log -Append
 			break
 		}
 		"sys.csv" {
 			# System Event
-			Write-Output "System Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\sys.csv_filtered.txt -NoClobber
-			Import-Csv $DFCExtractPath\sys.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $DFCExtractPath\sys.csv_filtered.txt -Append
+			Write-Output "System Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\sys.csv_filtered.log -NoClobber
+			Import-Csv $DFCExtractPath\sys.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $DFCExtractPath\sys.csv_filtered.log -Append
 			break
 		}
 		
 		"App.evtx" {
 			# Get-WinEvent -Path $DFCExtractPath\App.evtx
 			$GWEAppEvtx = Get-WinEvent -Path $DFCExtractPath\App.evtx
-			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\App.evtx_filtered.txt -NoClobber
-			$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $DFCExtractPath\App.evtx_filtered.txt -Width 300 -Append
+			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\App.evtx_filtered.log -NoClobber
+			$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $DFCExtractPath\App.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		"Sys.evtx" {
 			# Get-WinEvent -Path $DFCExtractPath\Sys.evtx
 			$GWESysEvtx = Get-WinEvent -Path $DFCExtractPath\Sys.evtx			
-			Write-Output "System Event Errors or Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\Sys.evtx_filtered.txt -NoClobber
-			$GWESysEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $DFCExtractPath\Sys.evtx_filtered.txt -Width 300 -Append
+			Write-Output "System Event Errors or Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\Sys.evtx_filtered.log -NoClobber
+			$GWESysEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $DFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		default {
