@@ -32,10 +32,10 @@ $Encoding = [System.Text.Encoding]::GetEncoding("IBM037")
 $Encoding.GetString($Buffer) | Out-File $ConvertedFile  -Force
 
 <# 
-PS C:\>  Get-Content $SourceFileName -Encoding Byte            
+PS C:\> Get-Content $SourceFileName -Encoding Byte            
 
 Get-Content : A parameter cannot be found that matches parameter name 'Encoding'.
-At line:1 char:29
+At line:1 char:29 
 + Get-Content $SourceFileName -Encoding Byte
 +                             ~~~~~~~~~
     + CategoryInfo          : InvalidArgument: (:) [Get-Content], ParameterBindingException
