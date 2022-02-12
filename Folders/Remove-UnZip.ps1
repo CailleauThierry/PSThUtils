@@ -1,15 +1,20 @@
 ﻿####################################################################################################
-#          Remove-UnZip.ps1 : Version 0.0.0.1
+#          Remove-UnZip.ps1 : Version 0.0.0.2
 # Author: Thierry Cailleau
-# Date: 03/09/2019
+# Date: 02/12/2022
 #
 #
 # Detects .zip file name and removes any folders with the same name.
-# The goal is to recover space taken from Get-AFC and Get-DFC
+# The goal is to recover space taken from Get-AFC, Get-DFC and GET-PFC
+# It should still removes every unzipped folders for .tar.bz2 files (not tested on 02_12_2022 for Version 0.0.0.2 release)
 #
 ####################################################################################################
 
 <#  --------------  Changes History  -----------------
+Version 0.0.0.2:
+- Removed unused variable: $PowerShellSource
+- Changed the mechanism to detect .zip file name i.e. also the default folder name .zip would extract as using the $_.Basename
+This is a major improvement in what the script is able to detect. I recovered 200 GB on 02_11_2022
 Version 0.0.0.1:
 - removes every unzipped folders for .tar.bz2 files
 - Tested on PS 5.1 and PS Core 6.1
@@ -59,7 +64,7 @@ if (-not (Test-Path $LogFolder)) {
 new-item -itemtype directory $LogFolder
 }
 
-$PowerShellSource = Get-Location
+$null = Get-Location
 Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 	if (($_.Name.Split(".")[-2].ToString() + "." + $_.Name.Split(".")[-1].ToString()) -eq "tar.bz2") {
 		if (Test-Path ($_.FullName.Split(".")[0])){
@@ -78,7 +83,7 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 		}
 	}
 	elseif ($_.Name -match "AFC.*\.zip") {
-		$AFCShortDir = $_.Name.Split(".")[0]
+		$AFCShortDir = $_.Basename
 		$UnzipDirectory = $_.DirectoryName + "\" + "$AFCShortDir"
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
@@ -89,7 +94,8 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 		}
 	}
 	elseif ($_.Name -match "DFC.*\.zip") {
-		$DFCShortDir = $_.Name.Split(".zi")[0]
+		# .Basename give you the file name without its extention
+		$DFCShortDir = $_.Basename
 		$UnzipDirectory = $_.DirectoryName + "\" + "$DFCShortDir"
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
@@ -100,7 +106,7 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 		}
 	}
 	elseif ($_.Name -match "PFC.*\.zip") {
-		$PFCShortDir = $_.Name.Split(".zi")[0]
+		$PFCShortDir = $_.Basename
 		$UnzipDirectory = $_.DirectoryName + "\" + "$PFCShortDir"
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
@@ -111,7 +117,8 @@ Get-ChildItem -Path $DirToScan -Include *.bz2,*.zip -Recurse | ForEach-Object {
 		}
 	}
 	elseif ($_.Name.Split(".")[-1].ToString() -eq "zip") {
-		$UnzipDirectory = $_.FullName.Split(".")[0]
+		$ShortDir = $_.Basename
+		$UnzipDirectory = $_.DirectoryName + "\" + "$ShortDir"
 		if (Test-Path $UnzipDirectory){
 		Remove-Item -Path $UnzipDirectory -Recurse -Force
 		}
