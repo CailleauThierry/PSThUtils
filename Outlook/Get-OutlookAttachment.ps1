@@ -10,7 +10,7 @@
 	.DESCRIPTION
 		A description of the file.
 #>
-# <-- Script --------->
+# <-- Script -------->
 #requires -Version 2
 $o = New-Object -comobject outlook.application
 $n = $o.GetNamespace("MAPI")
