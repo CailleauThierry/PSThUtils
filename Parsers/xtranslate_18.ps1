@@ -13,7 +13,7 @@ function Get-XLogTranslator{
 	# runs once pe pipeline object pipeline object
 	# here $_. represnets the
 	Write-OutPut "Input is:  $_"
-	&'C:\Program Files\Carbonite Server Backup\Agent\XLogTranslator.exe' $_ /o "$_.log"
+	&'C:\Program Files\Carbonite Server Backup\Agent\XLogTranslator.exe' $_ /l "en-US" /o "$_.log"
 	Write-OutPut "Output is: $_.log"
 	}
 	end {
