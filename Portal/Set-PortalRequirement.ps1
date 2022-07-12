@@ -1,4 +1,4 @@
-# Set-PortalRequirement.ps1 on Thursday November 05, 2020
+# Set-PortalRequirement.ps1 updated on Tuesday July 12, 2022
 # Validate pre-requisites for Carbonite Server Backup Portal 8-60
 # * Run this script from a Powershel Admin Prompt!
 # * Make sure Powershell Execution Policy is bypassed to run these scripts:
@@ -20,7 +20,7 @@ Install-WindowsFeature WAS-Config-APIs
 # Replace Get with Install. For example: Install-Windowsfeature NET-HTTP-Activation
 
 # Check the status of all required Windows optional features
-# Set-WindowsOptionalFeature becomes Enable-WindowsOptionalFeature
+# Set-WindowsOptionalFeature becomes Enable-WindowsOptionalFeature with PS 5.1 (Server 2019 and Win 10)
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServer
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-CommonHttpFeatures
