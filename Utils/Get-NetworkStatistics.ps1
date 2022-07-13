@@ -381,7 +381,9 @@
 }
 # "{[int]$_.LocalPort}" allows us to Sort on "LocalPort" based on the weight of the interger now on the first numberof the port
 
-Get-NetworkStatistics | Sort-Object {[int]$_.LocalPort} | Format-Table LocalPort,LocalAddress,Protocol,RemoteAddress,RemotePort,State,PID,ProcessName  -AutoSize 
+Get-NetworkStatistics | Where-Object {$_.Protocol -eq 'TCP' -and $_.State -eq 'LISTENING' }|  Sort-Object {[int]$_.LocalPort} | Format-Table 'LocalPort','LocalAddress','RemoteAddress','RemotePort','Protocol','State','PID','ProcessName'  -AutoSize 
+
+
 
 # Pasted from <http://blogs.microsoft.co.il/blogs/scriptfanatic/archive/2011/02/10/How-to-find-running-processes-and-their-port-number.aspx> 
 
