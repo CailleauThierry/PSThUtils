@@ -48,12 +48,13 @@ param (
 
 # set Clipboard
 
-. .\Set-Clipboard_fc.ps1
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Set-Clipboard_fc.ps1
 
 
 # $log1 for Get-Content of it $log1 = Get-Content C:\hsgTest\input\Backup-526ABFBB-48AC-29B4.LOG
 
 $Log = New-Object -TypeName PSObject
+$Log | Add-Member -MemberType NoteProperty -Name "Log Path" 'Could not find a folder name in the input'
 $Log | Add-Member -MemberType NoteProperty -Name "Log Name" 'Could not find a file name in Dragged & Dropped input'
 $Log | Add-Member -MemberType NoteProperty -Name "Working with" "Did not capture customer\'s name"
 

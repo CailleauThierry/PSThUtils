@@ -32,9 +32,9 @@
 		about_comment_based_help
 
 #>
-. ..\FileHandling\Get-FileName.ps1
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\FileHandling\Get-FileName.ps1
+
+Write-Output "HOME is: $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\FileHandling\Get-FileName.ps1"
 
 
-$inputfile = Get-FileName "C:\Temp" 
-
-$inputfile | .\Get-Forensic.ps1 
+Get-FileName "C:\Temp" | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-Forensic.ps1 
