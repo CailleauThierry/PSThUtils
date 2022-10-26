@@ -8,19 +8,19 @@
 		Now supports taking parameter from the Pipeline, this sohuld allow for a master selector
 		Previous Changes
 		Now works from $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\ for future ease of sharing it.
-		- Extracts AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or .*.log (must be in this format for now). Might detect content in the future
+		- Extracts AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log  .*.txt(must be in this format for now). Might detect content in the future
 		Bug fixes: would only read event logs in mm/d/yyyy format whereas W2K8 is in mm-d-yyyy
 		New features: is backward compatible with old AFC logs still producing App and sys .evtx event logs instead of the App and sys .csv
 		To do: could create a directory structured object
 
 	.PARAMETER  ParameterA
-		Only takes 1 single AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or .*.log file with complete path. Where '*' can be any charaters before the '.zip' extension
+		Only takes 1 single AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file with complete path. Where '*' can be any charaters before the '.zip' extension
 
 	.EXAMPLE
-		Shift Drag&Drop AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or .*.log file to "Get-Forensic.ps1 - Shortcut" place on windows taskbar
+		Shift Drag&Drop AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file to "Get-Forensic.ps1 - Shortcut" place on windows taskbar
 
 	.EXAMPLE
-		PS C:\> Launch "Get-Forensic.ps1 - Shortcut" and type in the full "AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or .*.log" path like:
+		PS C:\> Launch "Get-Forensic.ps1 - Shortcut" and type in the full "AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log" .*.txt path like:
 		C:\posh\AFC-.*.zip
 	.EXAMPLE
 		Get-Forensic.ps1 is now callable from Pipeline, the script in itself is the function Name
