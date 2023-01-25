@@ -89,7 +89,7 @@ elseif(($sb_name) -match ".*\.log|.*\.txt")
     Write-Host 'did not find DFC-*\.zip'
     Write-Host 'did not find PFC-*\.zip'
 	Write-Host 'did not find .*\.CAT'
-    Write-Host ("$sb_name" + "'s content is in the clipboard ready for you to paste! `nException(s) is(are) the following entries(s) that could not be found in this file:")
+    Write-Host ("$sb_name" + "'s content is in the clipboard ready for you to paste! `n List of Exception(s) (if any) shown in the following entrie(s) that could not be found in this file:`n")
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DescriptionFromLog.ps1
 }
 
