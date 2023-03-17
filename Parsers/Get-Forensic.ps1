@@ -14,7 +14,7 @@
 		To do: could create a directory structured object
 
 	.PARAMETER  ParameterA
-		Only takes 1 single AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file with complete path. Where '*' can be any charaters before the '.zip' extension
+		Only takes 1 single AFC-.*.zip or DFC-.*.zip (careful a file called DFC-#******.zip the "# could cause a bug") or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file with complete path. Where '*' can be any charaters before the '.zip' extension
 
 	.EXAMPLE
 		Shift Drag&Drop AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file to "Get-Forensic.ps1 - Shortcut" place on windows taskbar
