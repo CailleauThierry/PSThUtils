@@ -53,14 +53,16 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 		
 		"App.evtx" {
 			# Get-WinEvent -Path $PFCExtractPath\App.evtx
-			$GWEAppEvtx = Get-WinEvent -Path $PFCExtractPath\App.evtx
+			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
+			$GWEAppEvtx = Get-WinEvent -Path $PFCExtractPath\App.evtx -ErrorAction SilentlyContinue
 			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\App.evtx_filtered.log -NoClobber
 			$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $PFCExtractPath\App.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		"Sys.evtx" {
 			# Get-WinEvent -Path $PFCExtractPath\Sys.evtx
-			$GWESysEvtx = Get-WinEvent -Path $PFCExtractPath\Sys.evtx			
+			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
+			$GWESysEvtx = Get-WinEvent -Path $PFCExtractPath\Sys.evtx -ErrorAction SilentlyContinue		 	
 			Write-Output "System Event Errors or Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\Sys.evtx_filtered.log -NoClobber
 			$GWESysEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			break
