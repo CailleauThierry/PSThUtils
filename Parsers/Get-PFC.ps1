@@ -41,13 +41,13 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 		"app.csv" {
 			#Application Event			
 			Write-Output "Application Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\app.csv_filtered.log -NoClobber
-			Import-Csv $PFCExtractPath\app.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $PFCExtractPath\app.csv_filtered.log -Append
+			Import-Csv $PFCExtractPath\app.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"}  | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $PFCExtractPath\app.csv_filtered.log -Append
 			break
 		}
 		"sys.csv" {
 			# System Event
 			Write-Output "System Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\sys.csv_filtered.log -NoClobber
-			Import-Csv $PFCExtractPath\sys.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $PFCExtractPath\sys.csv_filtered.log -Append
+			Import-Csv $PFCExtractPath\sys.csv | where {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning" -or $_.Id -like "6013"} | Out-File $PFCExtractPath\sys.csv_filtered.log -Append
 			break
 		}
 		
@@ -56,7 +56,7 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
 			$GWEAppEvtx = Get-WinEvent -Path $PFCExtractPath\App.evtx -ErrorAction SilentlyContinue
 			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\App.evtx_filtered.log -NoClobber
-			$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $PFCExtractPath\App.evtx_filtered.log -Width 300 -Append
+			$GWEAppEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $PFCExtractPath\App.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		"Sys.evtx" {
@@ -64,7 +64,7 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
 			$GWESysEvtx = Get-WinEvent -Path $PFCExtractPath\Sys.evtx -ErrorAction SilentlyContinue		 	
 			Write-Output "System Event Errors or Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\Sys.evtx_filtered.log -NoClobber
-			$GWESysEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | where {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
+			$GWESysEvtx | where {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning" -or $_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		default {
