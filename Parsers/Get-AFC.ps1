@@ -106,7 +106,7 @@ Get-ChildItem $AFCExtractPath | ForEach-Object {
 		}
 		"sys.csv" {
 			# System Event
-			Write-Output "System Event Errors and Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\sys.csv_filtered.log -NoClobber
+			Write-Output "System Event Errors, Warnings and System Uptime--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\sys.csv_filtered.log -NoClobber
 			Import-Csv $AFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning" -or $_.Id -like "6013"} | Out-File $AFCExtractPath\sys.csv_filtered.log -Append
 			break
 		}
@@ -121,7 +121,7 @@ Get-ChildItem $AFCExtractPath | ForEach-Object {
 		"Sys.evtx" {
 			# Get-WinEvent -Path $AFCExtractPath\Sys.evtx
 			$GWESysEvtx = Get-WinEvent -Path $AFCExtractPath\Sys.evtx			
-			Write-Output "System Event Errors or Warnings--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\Sys.evtx_filtered.log -NoClobber
+			Write-Output "System Event Errors, Warnings and System Uptime--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\Sys.evtx_filtered.log -NoClobber
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning" -or $_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			break
 		}
