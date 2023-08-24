@@ -30,7 +30,7 @@ From <https://stackoverflow.com/questions/29971624/visual-studio-code-cannot-det
 
 
 { 
-    "git.path":"C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-2.4.0\\resources\\app\\git\\cmd\\git.exe",
+    "git.path":"C:\\Users\\Administrator\\AppData\\Local\\GitHubDesktop\\app-3.2.9\\resources\\app\\git\\cmd\\git.exe",
     "telemetry.enableTelemetry": false,
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "files.autoSave": "afterDelay",
