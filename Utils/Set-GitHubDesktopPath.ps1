@@ -72,6 +72,6 @@ C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\Wind
 er\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Serv
 er\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;
 C:\Users\Administrator\AppData\Local\GitHubDesktop\bin;C:\Program Files\Azure Data Studio\bin;C:\Program Files\OpenSSL-Win64\bin;
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\PSThUtils> #>
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\PSThUtils>  #>
 
 C:\Users\Administrator\AppData\Local\GitHubDesktop\app-3.2.8\resources\app\git\mingw64\bin
