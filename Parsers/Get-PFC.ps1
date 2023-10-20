@@ -46,8 +46,9 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 		}
 		"sys.csv" {
 			# System Event
-			Write-Output "System Event Errors, Warnings and System Uptime--------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\sys.csv_filtered.log -NoClobber
-			Import-Csv $PFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning" -or $_.Id -like "6013"} | Out-File $PFCExtractPath\sys.csv_filtered.log -Append
+			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\sys.csv_filtered.log -NoClobber
+			Import-Csv $AFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Out-File $PFCExtractPath\sys.csv_filtered.log -Append
+			Import-Csv $PFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $PFCExtractPath\sys.csv_filtered.log -Append
 			break
 		}
 		
@@ -63,8 +64,8 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 			# Get-WinEvent -Path $PFCExtractPath\Sys.evtx
 			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
 			$GWESysEvtx = Get-WinEvent -Path $PFCExtractPath\Sys.evtx -ErrorAction SilentlyContinue		 	
-			Write-Output "System Uptime then System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\Sys.evtx_filtered.log -NoClobber
-			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
+			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\Sys.evtx_filtered.log -NoClobber
+			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			break
 		}
