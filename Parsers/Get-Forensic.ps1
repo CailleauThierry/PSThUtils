@@ -92,6 +92,17 @@ elseif(($sb_name) -match ".*\.DTA")
 	. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Converter\Get-EVDTA.ps1
 	Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.DTA -Recurse | Get-EVDTA
 }
+elseif(($sb_name) -match ".*\.evtx")
+{
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_linux.tar.gz'
+    Write-Host 'did not find DFC-*.zip'
+    Write-Host 'did not find PFC-*.zip'
+	Write-Host 'did not find .*\.CAT'
+	Write-Host 'did not find .*\.DTA'
+	. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Converter\Get-EVTX.ps1
+	Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.evtx -Recurse | Get-EVTX
+}
 elseif(($sb_name) -match ".*\.log|.*\.txt")
 {
     Write-Host 'did not find AFC-*.zip'
@@ -100,6 +111,7 @@ elseif(($sb_name) -match ".*\.log|.*\.txt")
     Write-Host 'did not find PFC-*\.zip'
 	Write-Host 'did not find .*\.CAT'
 	Write-Host 'did not find .*\.DTA'
+	Write-Host 'did not find .*\.evtx'
     Write-Host ("$sb_name" + "'s content is in the clipboard ready for you to paste! `n List of Exception(s) (if any) shown in the following entrie(s) that could not be found in this file:`n")
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DescriptionFromLog.ps1
 }
