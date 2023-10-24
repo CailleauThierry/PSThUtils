@@ -101,7 +101,7 @@ elseif(($sb_name) -match ".*\.evtx")
 	Write-Host 'did not find .*\.CAT'
 	Write-Host 'did not find .*\.DTA'
 	. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Converter\Get-EVTX.ps1
-	Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.evtx -Recurse | Get-EVTX
+	Get-ChildItem -LiteralPath $FullForensicPath | Get-EVTX
 }
 elseif(($sb_name) -match ".*\.log|.*\.txt")
 {
