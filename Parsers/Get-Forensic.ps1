@@ -123,6 +123,8 @@ else
     Write-Host 'did not find DFC-*\.zip'
     Write-Host 'did not find PFC-*\.zip'
 	Write-Host 'did not find .*\.CAT'
+	Write-Host 'did not find .*\.DTA'
+	Write-Host 'did not find .*\.evtx'
     Write-Host 'did not find .*\.log or .*\.txt'
 break
 }
