@@ -111,8 +111,8 @@ function New-TSEntry
 <#	
 	$ar = @()
 	
-	# Note: there is a way for faster array manipulation using [System.Collections.ArrayList]$ar = @() and the ".Add()" method i.e. $null = $ar.Add($x)
-	Measure-Command {
+	# Note: there is a way for faster array manipulation using [System.Collections.ArrayList]$ar = @() and the ".Add()" method i.e. $null = $ar.Add($x)
+	Measure-Command {
 		for ($x = 1; $x -lt 10000; $x += 1) {
 			$ar += $x
 		}
