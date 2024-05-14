@@ -47,7 +47,7 @@ Get-ChildItem $DFCExtractPath | ForEach-Object {
 		"sys.csv" {
 			# System Event
 			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\sys.csv_filtered.log -NoClobber
-			Import-Csv $AFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Out-File $DFCExtractPath\sys.csv_filtered.log -Append
+			Import-Csv $DFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Out-File $DFCExtractPath\sys.csv_filtered.log -Append
 			Import-Csv $DFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $DFCExtractPath\sys.csv_filtered.log -Append
 			break
 		}
