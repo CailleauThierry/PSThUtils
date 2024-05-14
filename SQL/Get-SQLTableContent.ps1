@@ -28,6 +28,10 @@ $server_instance = 'TCDTemp\Evault_db'
 
 # the last ).name translates an property called "name" into a list of name (strings only)
 
+if (-not (Test-Path "C:\Temp\SQLTables\")) { # Test if C:\Temp\SQLTables\ path exist. If not it creates that path
+    $Silent = new-item -itemtype directory "C:\Temp\SQLTables\"
+    }
+
 $tableNames = (Invoke-Sqlcmd -Query "SELECT * from [$database_name].[$schema_name1].tables" -ServerInstance "$server_instance" | Select-Object name).name
 Write-Output "This script could take a while to complete as some tables might be very large..."
 $tableNames | 
@@ -37,7 +41,7 @@ ForEach-Object {
     $query = "SELECT * from [$database_name].[$schema_name2].[$_]"
     (Invoke-Sqlcmd -Query $query -ServerInstance $server_instance) | 
     # Save the resulting table in it's own file with the table name
-    Out-File C:\Temp\$table.log
+    Out-File C:\Temp\SQLTables\$table.log
 }
 
 Write-Output "...the script has now completed. Please review the table content in C:\Temp\`$table.log"
