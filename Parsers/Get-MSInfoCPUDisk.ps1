@@ -250,27 +250,23 @@ function Get-MSInfo {
     )
     
     begin {
-        $Drives = @{}
+        $Drives = @()
         [xml]$msinfo = Get-Content $msinfo32File
     }
     
     process {
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-ForEach-Object {($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))}
+        ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}}
 
-$msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-ForEach-Object {$_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>','')}
-
-$msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-ForEach-Object {$Drives.Add($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''),$_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}
+#$msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
+#ForEach-Object {$Drives.Add($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''),$_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}
     }
     
     end {
-        Write-Output $Drives
+        return $Drives
     }
 }
-Get-MSInfo
-
+Get-MSInfo | Format-Table
 
 
 

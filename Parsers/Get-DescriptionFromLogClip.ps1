@@ -174,7 +174,7 @@ for($counter = 0; $counter -lt $Keys.Length; $counter++){
 	# $consume consumes the result of the pipe since we are not directly interested by the pipe result but its side product from the $matches automatic variable and if true or false match for the conditional if loop
 	$consume = $log1 | Where-Object {$_ -match $Keys[$counter].key0 } | Where-Object {$_ -match  $Keys[$counter].key1}
 
-# key2 Property (like "Agent Version", "Agent Host Name", "Task Name". This is the resulte of observer redundancies and size optimzation of the code
+# key2 Property (like "Agent Version", "Agent Host Name", "Task Name". This is the result of observed redundancies and size optimzation of the code
 
 if ($consume -notlike $null) {
 	$Log.($Keys[$counter].key2) = $Matches[2]
