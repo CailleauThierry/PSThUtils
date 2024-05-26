@@ -15,7 +15,12 @@
 function Get-MSInfo {
     [CmdletBinding()]
     param (
-        [string]$msinfo32File
+    [Parameter(
+	Mandatory=$true,
+	ValueFromPipeline=$true
+	)
+    ] 
+    [string]$msinfo32File
     )
     
     begin {
@@ -25,20 +30,16 @@ function Get-MSInfo {
     
     process {
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-        ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}}
-
-#$msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-#ForEach-Object {$Drives.Add($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''),$_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}
+        ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
+        $myDrives += $Drives | Out-String -Stream | Where-Object {$_ -match 'Size.*'} 
     }
     
     end {
-        return $Drives
+ 
+        $myDrives | Out-File ($msinfo32File + ".log")
     }
 }
-Get-MSInfo -msinfo32File 'C:\Temp\06xxxxxx\02824089\05_07_2024\AFC-_02824089-SVIMGCAVW101.backup.lan-2024-05-07-11-42-23-279_1715075058\msinfo32.nfo' | 
-Out-String -Stream | Where-Object {$_ -match 'Size|Drive|Disc'}   
-
-
+ Get-MSInfo -msinfo32File 'C:\Temp\06xxxxxx\2024\Extracted\AFC-100796-PDMSQL01.dtric.com-2024-05-06-07-55-24-893\msinfo32.nfo'
 
 
 
