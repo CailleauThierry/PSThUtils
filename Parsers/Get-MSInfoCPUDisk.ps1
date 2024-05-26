@@ -29,20 +29,15 @@ function Get-MSInfo {
     }
     
     process {
-
-        $MyInfo = $msinfo.MsInfo.Category.InnerXml | ConvertTo-Json
-        
-        $MyInfo | Out-File ($msinfo32File + ".log")
-        
-<#         | 
+        #Getting main page info
+        $msinfo.MsInfo.Category.Data |
         ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
-        $myDrives += $Drives | Out-String -Stream | Where-Object {$_ -match 'Size.*'} 
-        Write-Output $textValue  #>
-
-
+        # Getting Components > Storage > Drives info
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
         ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
-        $myDrives += $Drives | Out-String -Stream | Where-Object {$_ -match 'Size.*'} 
+
+        $myDrives += $Drives | Out-String -Stream
+    
     }
     
     end {
