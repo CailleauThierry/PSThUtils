@@ -29,6 +29,17 @@ function Get-MSInfo {
     }
     
     process {
+
+        $MyInfo = $msinfo.MsInfo.Category.InnerXml | ConvertTo-Json
+        
+        $MyInfo | Out-File ($msinfo32File + ".log")
+        
+<#         | 
+        ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
+        $myDrives += $Drives | Out-String -Stream | Where-Object {$_ -match 'Size.*'} 
+        Write-Output $textValue  #>
+
+
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
         ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
         $myDrives += $Drives | Out-String -Stream | Where-Object {$_ -match 'Size.*'} 
@@ -39,7 +50,7 @@ function Get-MSInfo {
         $myDrives | Out-File ($msinfo32File + ".log")
     }
 }
- Get-MSInfo -msinfo32File 'C:\Temp\06xxxxxx\2024\Extracted\AFC-100796-PDMSQL01.dtric.com-2024-05-06-07-55-24-893\msinfo32.nfo'
+ Get-MSInfo -msinfo32File 'C:\Temp\06xxxxxx\2024\Extracted\AFC-02732663-New-MailArchiver.eccu.local-2024-01-03-14-26-46-694\msinfo32.nfo'
 
 
 
