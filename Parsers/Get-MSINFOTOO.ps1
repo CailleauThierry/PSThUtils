@@ -1,0 +1,1 @@
+gci C:\Temp\06xxxxxx\2024\Extracted\*.nfo -Filter *.nfo -Recurse | select -Property FullName | Get-MSInfo   

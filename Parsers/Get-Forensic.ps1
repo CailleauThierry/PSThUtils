@@ -73,6 +73,15 @@ elseif(($sb_name) -match "PFC-.*\.zip")
     Write-Host 'did not find DFC-*.zip'
     $FullForensicPath | . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-PFC.ps1
 }
+elseif(($sb_name) -match ".*\.nfo")
+{
+    Write-Host 'did not find AFC-*.zip'
+    Write-Host 'did not find afc_linux.tar.gz'
+    Write-Host 'did not find DFC-*.zip'
+    Write-Host 'did not find PFC-*.zip'
+	. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-MSInfoCPUDisk.ps1
+    Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo -Recurse | Get-MSInfo
+}
 elseif(($sb_name) -match ".*\.CAT")
 {
     Write-Host 'did not find AFC-*.zip'
