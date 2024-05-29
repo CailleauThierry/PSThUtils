@@ -66,13 +66,19 @@ function Get-MSInfo{
         $Drives = @()
         $msinfo32File =  $_.FullName
         [xml]$msinfo = Get-Content $_.FullName
-
+        #Scanning $msinfo to find what "Item" and "Value" is on the msinfo32.nfo's Language
+        $MyItem = $msinfo.MsInfo.Category.Data[0].OuterXml | select-String -AllMatches -Pattern '<Data><(\w*)>' | ForEach-Object -MemberName Matches | ForEach-Object {$_.Groups[1].Value}
+        $MyValue = $msinfo.MsInfo.Category.Data[0].OuterXml | select-String -AllMatches -Pattern "<Data>.*$MyItem><(\w*)" | ForEach-Object -MemberName Matches | ForEach-Object {$_.Groups[1].Value}
+        $MyItemLeft = '<' + "$MyItem" + '><![CDATA['
+        $MyItemRight = ']]></' + "$MyItem" + '>'
+        $MyValueLeft = '<' + "$MyValue" + '><![CDATA['
+        $MyValueRight = ']]></' + "$MyValue" + '>'
         #Getting main page info
         $msinfo.MsInfo.Category.Data |
-            ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
+            ForEach-Object {$Drives += ,@{($_.Element.OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.Wert.OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
         # Getting Components > Storage > Drives info
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-            ForEach-Object {$Drives += ,@{($_.Item.OuterXml.Replace('<Item><![CDATA[','').Replace(']]></Item>',''))=($_.Value.OuterXml.Replace('<Value><![CDATA[','').Replace(']]></Value>',''))}} 
+            ForEach-Object {$Drives += ,@{($_.Element.OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.Wert.OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
 
         $myDrives += $Drives | Out-String -Stream
 
@@ -83,3 +89,14 @@ function Get-MSInfo{
         $myDrives | Out-File ($msinfo32File + ".log")
     }
 }
+
+<# PS C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils> Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo
+
+
+    Directory: C:\Temp
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         4/11/2024   8:47 AM        1855602 msinfo32_de.nfo
+-a----          1/3/2024  11:30 PM        2021860 msinfo32_en.nfo #>
