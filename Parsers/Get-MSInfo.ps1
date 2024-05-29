@@ -75,10 +75,10 @@ function Get-MSInfo{
         $MyValueRight = ']]></' + "$MyValue" + '>'
         #Getting main page info
         $msinfo.MsInfo.Category.Data |
-            ForEach-Object {$Drives += ,@{($_.Element.OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.Wert.OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
+            ForEach-Object {$Drives += ,@{($_.($MyItem).OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.($MyValue).OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
         # Getting Components > Storage > Drives info
         $msinfo.MsInfo.Category.Category[1].Category[9].Category[0].Data | 
-            ForEach-Object {$Drives += ,@{($_.Element.OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.Wert.OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
+            ForEach-Object {$Drives += ,@{($_.($MyItem).OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.($MyValue).OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
 
         $myDrives += $Drives | Out-String -Stream
 
