@@ -64,6 +64,9 @@ function Get-MSInfo{
 
     process {
         $Drives = @()
+        $Drives = $null
+        $myDrives  = @()
+        $myDrives = $null
         $msinfo32File =  $_.FullName
         [xml]$msinfo = Get-Content $_.FullName
         #Scanning $msinfo to find what "Item" and "Value" is on the msinfo32.nfo's Language
@@ -81,16 +84,18 @@ function Get-MSInfo{
             ForEach-Object {$Drives += ,@{($_.($MyItem).OuterXml.Replace($MyItemLeft,'').Replace($MyItemRight,''))=($_.($MyValue).OuterXml.Replace($MyValueLeft,'').Replace($MyValueRight,''))}}    
 
         $myDrives += $Drives | Out-String -Stream
-
+        $myDrives | Out-File ($msinfo32File + ".log")
     }
 
     end {
 
-        $myDrives | Out-File ($msinfo32File + ".log")
+        # This is also not a place that runs multiple times
     }
 }
 
-<# PS C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils> Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo
+<# 
+Non-critical bug to fix: If there are 2 .nfo only the 1srt one will get extracted with the last one file name
+PS C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils> Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo
 
 
     Directory: C:\Temp
