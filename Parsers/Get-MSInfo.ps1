@@ -94,14 +94,9 @@ function Get-MSInfo{
 }
 
 <# 
-Non-critical bug to fix: If there are 2 .nfo only the 1srt one will get extracted with the last one file name
-PS C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils> Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo
+Confirmed that the 2 * .nfo bug is fixed since the last check-in
 
+Idea for next version:
 
-    Directory: C:\Temp
-
-
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----         4/11/2024   8:47 AM        1855602 msinfo32_de.nfo
--a----          1/3/2024  11:30 PM        2021860 msinfo32_en.nfo #>
+Flag the EVault Running Services 
+#>

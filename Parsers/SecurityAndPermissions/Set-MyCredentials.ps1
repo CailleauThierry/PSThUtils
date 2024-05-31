@@ -1,13 +1,13 @@
 <# 
 Set-MyCredentials.ps1 on 07_29_2021 by Thierry Cailleau
 REQUIREMENTS
-   Install-Module -Name Microsoft.PowerShell.SecretManagement -RequiredVersion 1.0.0
+   Install-Module -Name Microsoft.PowerShell.SecretManagement
    Install-Module -Name Microsoft.PowerShell.SecretStore
    Install-Module -Name SecretManagement.JustinGrote.CredMan
 #>
 
 <# 
-PS C:\WINDOWS\system32> Install-Module -Name Microsoft.PowerShell.SecretManagement -RequiredVersion 1.0.0
+PS C:\WINDOWS\system32> Install-Module -Name Microsoft.PowerShell.SecretManagement
 
 Untrusted repository
 You are installing the modules from an untrusted repository. If you trust this repository, change its InstallationPolicy value by running the Set-PSRepository cmdlet. Are you sure you want

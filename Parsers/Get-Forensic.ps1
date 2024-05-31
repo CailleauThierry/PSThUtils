@@ -23,15 +23,15 @@
 
 	.PARAMETER  ParameterA
 		Only takes 1 single file with complete path. Where '*' can be any charaters before the suuported  extension like'.zip', '.nfo'...
-          	* AFC-*\.zip'
-			* afc_linux.tar.gz'
-			* DFC-*\.zip' (careful a file called DFC-#******.zip the "# could cause a bug")
-			* PFC-*\.zip'
-			* *.nfo'
-			* .*\.CAT'
-			* .*\.DTA'
-			* .*\.evtx'
-			* .*\.log or .*\.txt'
+          	* AFC-*\.zip
+			* afc_linux.tar.gz
+			* DFC-*\.zip (careful a file called DFC-#******.zip the "# could cause a bug")
+			* PFC-*\.zip
+			* *.nfo
+			* .*\.CAT
+			* .*\.DTA
+			* .*\.evtx
+			* .*\.log or .*\.txt
 	.EXAMPLE
 		Shift Drag&Drop (Works on Windows 10 but not on Windows 11 anymore) AFC-.*.zip or DFC-.*.zip or PFC-.*.zip or afc_linux.tar.gz or CAT-.*.zip or .*.log .*.txt file to "Get-Forensic.ps1 - Shortcut" place on windows taskbar
 
