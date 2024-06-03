@@ -1,6 +1,13 @@
-# Comment out the Scripts you do not want to run
-$Selector = "Get-MSInfo", "NoSelection"
-
+# Block comment out the Scripts you do not want to run
+# Example to only run : ExtractNfoFromAFC
+# $Selector = @(<# Get-MSInfo, #> "ExtractNfoFromAFC")
+# Make sure to place th switch keywords in double quotes
+$Selector = @(<# "Get-MSInfo", #> 
+<# "ExtractNfoFromAFC", #> 
+<# "SpecificAFC", #> 
+"StandardAFC",
+"StandardDFC" ,
+"StandardPFC")
 
 $Selector | ForEach-Object {
 	switch ($_)
@@ -13,39 +20,37 @@ $Selector | ForEach-Object {
             Get-ChildItem C:\Temp\msinfo32_de.nfo -Filter *.nfo -Recurse | Select-Object -Property FullName | Get-MSInfo   
             break
 		}
-		"sys.csv" {
+		"ExtractNfoFromAFC" {
 			# System Event
-			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\sys.csv_filtered.log -NoClobber
-			Import-Csv $AFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Out-File $AFCExtractPath\sys.csv_filtered.log -Append
-			Import-Csv $AFCExtractPath\sys.csv | Where-Object {$_.'Date and Time'.Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Level -like "Error" -or $_.Level -like "Warning"} | Out-File $AFCExtractPath\sys.csv_filtered.log -Append
+			# Create a list of all the AFC*.zip files we have copied to this path to only extract *.nfo files
+			Get-ChildItem C:\Temp\06xxxxxx\2024\*.zip -Filter *.zip | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCMSINFO.ps1}
 			break
 		}
-		
-		"App.evtx" {
-			# Get-WinEvent -Path $AFCExtractPath\App.evtx
-			$GWEAppEvtx = Get-WinEvent -Path $AFCExtractPath\App.evtx
-			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\App.evtx_filtered.log -NoClobber
-			$GWEAppEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $AFCExtractPath\App.evtx_filtered.log -Width 300 -Append
+		"SpecificAFC" {
+			# System Event
+			# Create a list of all the AFC*.zip files we have copied to this path to only extract *.nfo files
+			Get-ChildItem -LiteralPath "C:\Temp\AFC-01234567-TCEVR274-2024-05-31-12-43-38-460.zip" | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCMSINFO.ps1}
 			break
 		}
-		"Sys.evtx" {
-			# Get-WinEvent -Path $AFCExtractPath\Sys.evtx
-			$GWESysEvtx = Get-WinEvent -Path $AFCExtractPath\Sys.evtx			
-			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\Sys.evtx_filtered.log -NoClobber
-			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
-			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
+		"StandardAFC" {
+			# System Event
+			# Only extracts this AFC
+			Get-ChildItem -LiteralPath "C:\Temp\AFC-01234567-TCEVR274-2024-05-31-12-43-38-460.zip" | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFC.ps1}
 			break
 		}
-		"msinfo32.nfo" {
-			# Get-WinEvent -Path $AFCExtractPath\Sys.evtx
-			$GWESysEvtx = Get-WinEvent -Path $AFCExtractPath\Sys.evtx			
-			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $AFCExtractPath\Sys.evtx_filtered.log -NoClobber
-			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
-			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $AFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
-			
-			Get-ChildItem -LiteralPath (($FullForensicPath).Replace("$sb_name","")) -Filter *.nfo | Get-MSInfo
+		"StandardDFC" {
+			# System Event
+			# Only extracts this DFC
+			Get-ChildItem -LiteralPath "C:\Temp\DFC-TCD1-2024-06-03-02-17-36-401.zip" | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-DFC.ps1}
 			break
 		}
+		"StandardPFC" {
+			# System Event
+			# Only extracts this DFC
+			Get-ChildItem -LiteralPath "C:\Temp\PFC-TCPortalAi1-2024-06-03-06-05-41-965.zip" | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-PFC.ps1}
+			break
+		}
+
 		default {
 			# checking content of $_ as seen by the switch statement
 			# What did not get selected by switch

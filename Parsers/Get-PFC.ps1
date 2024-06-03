@@ -11,6 +11,8 @@ param (
 )
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
+#Adding post-extraction parsing of msinfo32.nfo
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-MSInfo.ps1
 
 $sb_name = ($PFCZip).Split('\\')[-1]
 
@@ -67,6 +69,11 @@ Get-ChildItem $PFCExtractPath | ForEach-Object {
 			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $PFCExtractPath\Sys.evtx_filtered.log -NoClobber
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $PFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
+			break
+		}
+		"msinfo32.nfo" {
+			# Get-WinEvent -Path $AFCExtractPath\Sys.evtx
+			Get-ChildItem -LiteralPath $PFCExtractPath -Filter *.nfo  | Get-MSInfo
 			break
 		}
 		default {

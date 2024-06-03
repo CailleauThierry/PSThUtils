@@ -11,6 +11,8 @@ param (
 )
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
+#Adding post-extraction parsing of msinfo32.nfo
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-MSInfo.ps1
 
 $sb_name = ($DFCZip).Split('\\')[-1]
 
@@ -54,17 +56,24 @@ Get-ChildItem $DFCExtractPath | ForEach-Object {
 		
 		"App.evtx" {
 			# Get-WinEvent -Path $DFCExtractPath\App.evtx
-			$GWEAppEvtx = Get-WinEvent -Path $DFCExtractPath\App.evtx
+			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
+			$GWEAppEvtx = Get-WinEvent -Path $DFCExtractPath\App.evtx -ErrorAction SilentlyContinue		 	
 			Write-Output "Application Event Errors or Warnings ---------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\App.evtx_filtered.log -NoClobber
 			$GWEAppEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"}  |  Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message  | Out-File $DFCExtractPath\App.evtx_filtered.log -Width 300 -Append
 			break
 		}
 		"Sys.evtx" {
 			# Get-WinEvent -Path $DFCExtractPath\Sys.evtx
-			$GWESysEvtx = Get-WinEvent -Path $DFCExtractPath\Sys.evtx			
+			# "-ErrorAction SilentlyContinue" to Workaround for "The description string for parameter reference (%1) could not be found" as per "https://github.com/EvotecIT/PSEventViewer/issues/6
+			$GWESysEvtx = Get-WinEvent -Path $DFCExtractPath\Sys.evtx -ErrorAction SilentlyContinue		 			
 			Write-Output "System Uptime Information + System Event Errors and Warnings  --------------------------------------------------------------------------------------------------------------------------------------" | Out-File $DFCExtractPath\Sys.evtx_filtered.log -NoClobber
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.Id -like "6013"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $DFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
 			$GWESysEvtx | Where-Object {$_.TimeCreated.ToString().Replace('-'," ").Replace('/',' ').Split(" ")[2] -ge "$lastyear"} | Where-Object {$_.LevelDisplayName -like "Error" -or $_.LevelDisplayName -like "Warning"} | Format-List -Property LevelDisplayName,TimeCreated,ProviderName,Id,Keywords,ProcessId,MachineName,UserId,Message | Out-File $DFCExtractPath\Sys.evtx_filtered.log -Width 300 -Append
+			break
+		}
+		"msinfo32.nfo" {
+			# Get-WinEvent -Path $AFCExtractPath\Sys.evtx
+			Get-ChildItem -LiteralPath $DFCExtractPath -Filter *.nfo  | Get-MSInfo
 			break
 		}
 		default {

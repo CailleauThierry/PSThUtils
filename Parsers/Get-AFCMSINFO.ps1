@@ -58,7 +58,7 @@ if (($sb_name) -match "AFC-.*.zip")
 {
 
 
-#extract bz2 and create a sub-directory 1 (non-configurable). The extract folder / directory is created by 7z called within Invoke-SevenZipPswd function defined in Get-7zip_PSWMSINFO.ps1
+#extract the compressed files and create a sub-directory 1 (non-configurable). The extract folder / directory is created by 7z called within Invoke-SevenZipPswd function defined in Get-7zip_PSWMSINFO.ps1
 $subdir1 = (Get-ChildItem $AFCZip | Invoke-SevenZipPswdCMAFCMsInfo)[-1]
 # Note: This still does not test if AFC file is a valid zip file
 } 

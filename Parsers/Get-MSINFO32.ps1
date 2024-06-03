@@ -1,2 +1,0 @@
-# Create a list of all the AFC*.zip files we have copied to this path to only extract *.nfo files
-Get-ChildItem C:\Temp\06xxxxxx\2024\*.zip -Filter *.zip | ForEach-Object { $_ | C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-AFCMSINFO.ps1}
