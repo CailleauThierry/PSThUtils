@@ -1,0 +1,1 @@
+%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -file %USERPROFILE%\Documents\WindowsPowerShell\Scripts\PSThUtils\Utils\Update_WUWindows.ps1
