@@ -24,7 +24,7 @@
 		C:\posh\AFC-.*.zip
 	.EXAMPLE
 		Get-AFC.ps1 is now callable from Pipeline, the script in itself is the function Name
-		PS C:\> gci c:\Temp\06xxxxxx\06292650\DFC-06292650-S174881X7719005-2021-06-23-09-40-11-519.zip | .\Get-AFC.ps1
+		PS C:\> gci c:\Temp\06xxxxxx\06292650\AFC-06292650-S174881X7719005-2021-06-23-09-40-11-519.zip | .\Get-AFC.ps1
 
 	.INPUTS
 		System.String
