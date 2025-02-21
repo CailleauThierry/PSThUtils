@@ -55,7 +55,7 @@ param (
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
 # This requires a Evault Agent to be installed to leverage on Xtranslator.exe utility
-. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\xtranslate_18.ps1
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-XLogTranslator.ps1	
 #Adding post-extraction parsing of msinfo32.nfo
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-MSInfo.ps1
 

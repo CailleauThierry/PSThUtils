@@ -14,7 +14,7 @@ param (
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip.ps1
 
 # This requires a Evault Agent to be installed to leverage on Xtranslator.exe utility
-. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\xtranslate_18.ps1
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-XLogTranslator.ps1
 
 $sb_name = ($SupportBundle -split '\\')[-1]
 $sb_Folder = $SupportBundle.TrimEnd("$sb_name")
