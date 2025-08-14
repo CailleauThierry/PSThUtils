@@ -91,8 +91,7 @@ if (($log1[1]) -match '(^)((\d{2}-\w{3}-\d{4}\s))')
 	$A4 = @{key0 = '-I-0354';key1 = '(\<)(?<RegExMatch>(\d{1}\.\d{2}\.\d{4}))';key2 = 'Agent Version'}
 	$A5 = @{key0 = ' tn = ';key1 = '(tn = )(?<RegExMatch>(.*))';key2 = 'Task Name'}
 	$A6 = @{key0 = '';key1 = '';key2 = '3rd Party App Version'}
-	$A7 = @{key0 = ' tid=';key1 = '(tid= )(?<RegExMatch>(\w{8}-\w{4}-\w{4}-\w{4}-\w{12}))';key2 = 'Task GUID'}
-	$A8 = @{key0 = '(^)(\d{2}-\w{3}-\d{4})';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3}-\d{4}\s\d{2}:\d{2}:\d{2}))';key2 = 'Log End Time'}
+	$A7 = @{key0 = '(^)(\d{2}-\w{3}-\d{4})';key1 = '(^)(?<RegExMatch>(\d{2}-\w{3}-\d{4}\s\d{2}:\d{2}:\d{2}))';key2 = 'Log End Time'}
 	}
 
 elseif (($log1[1]) -match '(^)(\w{3}\d{2})')
@@ -228,9 +227,8 @@ if ($Log."Agent OS" -match 'NT \d{1,2}\.\d{1}') {
 }
 
 # Use case
-$Log | Out-File .\result.txt -Force
-Get-Content .\result.txt | Select-Object -Skip 2 | Set-Clipboard
-Get-Item .\result.txt | Remove-Item
+$Log | Set-Clipboard
+
 
 #Once pasted from clipboard the result is:
 #

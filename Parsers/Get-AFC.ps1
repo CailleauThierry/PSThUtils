@@ -50,7 +50,13 @@ param (
 	ValueFromPipeline=$true
 	)
 ] 
-[string]$AFCZip
+[string]$AFCZip,
+[Parameter(
+	Mandatory=$false,
+	ValueFromPipeline=$true
+	)
+] 
+[string]$RemoveCAT = $false
 )
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
@@ -84,11 +90,17 @@ $AFCExtractPath = ($AFCZip.TrimEnd("$sb_name") + $subdir1)
 # String handling to remove any logs older than last year
 $lastyear = (get-date).AddMonths(-12).Year
 
-Write-Host " Removing bulky .CAT files and..."
+# None of my other functions are calling Get-AFC with -RemoveCAT true, so this is set to false by default
+
+if($RemoveCAT -eq $true) {
+	Write-Host " Removing bulky .CAT files..."
+	Write-Host " Removing bulky .CAT files and..."
+	Remove-Item "$AFCExtractPath\*\*.CAT" -Recurse
+} else {
+	Write-Host " Not removing bulky .CAT files..."
+}
+
 Write-Host " ...translating .XLOG to text searcheable .XLOG.log..."
-
-Remove-Item "$AFCExtractPath\*\*.CAT" -Recurse
-
 Get-ChildItem "$AFCExtractPath\*\*.XLOG" -Recurse | Get-XLogTranslator
 
 Get-ChildItem "$AFCExtractPath\*.XLOG" -Recurse | Get-XLogTranslator
