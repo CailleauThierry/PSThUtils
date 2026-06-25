@@ -24,7 +24,7 @@
 		C:\posh\AFC-.*.zip
 	.EXAMPLE
 		Get-AFC.ps1 is now callable from Pipeline, the script in itself is the function Name
-		PS C:\> gci c:\Temp\06xxxxxx\06292650\DFC-06292650-S174881X7719005-2021-06-23-09-40-11-519.zip | .\Get-AFC.ps1
+		PS C:\> gci c:\Temp\06xxxxxx\06292650\AFC-06292650-S174881X7719005-2021-06-23-09-40-11-519.zip | .\Get-AFC.ps1
 
 	.INPUTS
 		System.String
@@ -50,12 +50,18 @@ param (
 	ValueFromPipeline=$true
 	)
 ] 
-[string]$AFCZip
+[string]$AFCZip,
+[Parameter(
+	Mandatory=$false,
+	ValueFromPipeline=$true
+	)
+] 
+[string]$RemoveCAT = $false
 )
 # Passing AFC password from SecretStore CredMan
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-7zip_PSW.ps1
 # This requires a Evault Agent to be installed to leverage on Xtranslator.exe utility
-. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\xtranslate_18.ps1
+. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-XLogTranslator.ps1	
 #Adding post-extraction parsing of msinfo32.nfo
 . $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\PSThUtils\Parsers\Get-MSInfo.ps1
 
@@ -84,11 +90,17 @@ $AFCExtractPath = ($AFCZip.TrimEnd("$sb_name") + $subdir1)
 # String handling to remove any logs older than last year
 $lastyear = (get-date).AddMonths(-12).Year
 
-Write-Host " Removing bulky .CAT files and..."
+# None of my other functions are calling Get-AFC with -RemoveCAT true, so this is set to false by default
+
+if($RemoveCAT -eq $true) {
+	Write-Host " Removing bulky .CAT files..."
+	Write-Host " Removing bulky .CAT files and..."
+	Remove-Item "$AFCExtractPath\*\*.CAT" -Recurse
+} else {
+	Write-Host " Not removing bulky .CAT files..."
+}
+
 Write-Host " ...translating .XLOG to text searcheable .XLOG.log..."
-
-Remove-Item "$AFCExtractPath\*\*.CAT" -Recurse
-
 Get-ChildItem "$AFCExtractPath\*\*.XLOG" -Recurse | Get-XLogTranslator
 
 Get-ChildItem "$AFCExtractPath\*.XLOG" -Recurse | Get-XLogTranslator

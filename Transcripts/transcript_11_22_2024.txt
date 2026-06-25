@@ -1,0 +1,23 @@
+**********************
+PowerShell transcript start
+Start time: 20241122182608
+Username: OPENTEXT\tcailleau
+RunAs User: OPENTEXT\tcailleau
+Configuration Name: 
+Machine: TCAILLEAU-04 (Microsoft Windows NT 10.0.22621.0)
+Host Application: C:\Program Files\PowerShell\7\pwsh.dll -noexit -command try { . "c:\Program Files\Microsoft VS Code\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 28228
+PSVersion: 7.4.4
+PSEdition: Core
+GitCommitId: 7.4.4
+OS: Microsoft Windows 10.0.22621
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is transcript_11_22_2024.txt
+PSVERSION: 7.4.4
+PS>try { . "c:\Program Files\Microsoft VS Code\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+]633;A]633;P;Cwd=C:\x5cUsers\x5ctcailleau\x5cDocuments\x5cWindowsPowerShell\x5cScripts\x5cPSThUtilsPS C:\Users\tcailleau\Documents\WindowsPowerShell\Scripts\PSThUtils> ]633;B
